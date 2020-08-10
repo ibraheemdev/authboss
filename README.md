@@ -295,32 +295,6 @@ For most of these there are default implementations from the
 [defaults package](https://github.com/ibraheemdev/authboss/tree/master/defaults) available, but not for all.
 See the package documentation for more information about what's available.
 
-# Available Modules
-
-Each module can be turned on simply by importing it and the side-effects take care of the rest.
-Not all the capabilities of authboss are represented by a module, see [Use Cases](#use-cases)
-to view the supported use cases as well as how to use them in your app.
-
-**Note**: The two factor packages do not enable via side-effect import, see their documentation
-for more information.
-
-Name      | Import Path                               | Description
-----------|-------------------------------------------|------------
-Auth      | github.com/ibraheemdev/authboss/auth     | Database password authentication for users.
-Confirm   | github.com/ibraheemdev/authboss/confirm  | Prevents login before e-mail verification.
-Expire    | github.com/ibraheemdev/authboss/expire   | Expires a user's login
-Lock      | github.com/ibraheemdev/authboss/lock     | Locks user accounts after authentication failures.
-Logout    | github.com/ibraheemdev/authboss/logout   | Destroys user sessions for auth/oauth2.
-OAuth1    | github.com/stephenafamo/authboss-oauth1      | Provides oauth1 authentication for users.
-OAuth2    | github.com/ibraheemdev/authboss/oauth2   | Provides oauth2 authentication for users.
-Recover   | github.com/ibraheemdev/authboss/recover  | Allows for password resets via e-mail.
-Register  | github.com/ibraheemdev/authboss/register | User-initiated account creation.
-Remember  | github.com/ibraheemdev/authboss/remember | Persisting login sessions past session cookie expiry.
-OTP       | github.com/ibraheemdev/authboss/otp      | One time passwords for use instead of passwords.
-Twofactor | github.com/ibraheemdev/authboss/otp/twofactor | Regenerate recovery codes for 2fa.
-Totp2fa   | github.com/ibraheemdev/authboss/otp/twofactor/totp2fa | Use Google authenticator-like things for a second auth factor.
-Sms2fa    | github.com/ibraheemdev/authboss/otp/twofactor/sms2fa | Use a phone for a second auth factor.
-
 # Middlewares
 
 The only middleware that's truly required is the `LoadClientStateMiddleware`, and that's because it
@@ -398,40 +372,6 @@ It's very likely that you'd also want to enable the logout module in addition to
 
 Direct a user to `GET /login` to have them enter their credentials and log in.
 
-## User Auth via OAuth1
-
-| Info and Requirements |          |
-| --------------------- | -------- |
-Module        | oauth1
-Pages         | _None_
-Routes        | /oauth1/{provider}, /oauth1/callback/{provider}
-Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
-ClientStorage | Session
-ServerStorer  | [OAuth1ServerStorer](https://pkg.go.dev/github.com/stephenafamo/authboss-oauth1?tab=doc#ServerStorer)
-User          | [OAuth1User](https://pkg.go.dev/github.com/stephenafamo/authboss-oauth1?tab=doc#User)
-Values        | _None_
-Mailer        | _None_
-
-This is a tougher implementation than most modules because there's a lot going on. In addition to the
-requirements stated above, you must also configure the `oauth1.Providers`. It's a public variable in the module.
-
-```go
-import oauth1 "github.com/stephenafamo/authboss-oauth1"
-
-oauth1.Providers = map[string]oauth1.Provider{}
-```
-
-The providers require an oauth1 configuration that's typical for the Go oauth1 package, but in addition
-to that they need a `FindUserDetails` method which has to take the token that's retrieved from the oauth1
-provider, and call an endpoint that retrieves details about the user (at LEAST user's uid).
-These parameters are returned in `map[string]string` form and passed into the `oauth1.ServerStorer`.
-
-Please see the following documentation for more details:
-
-* [Package docs for oauth1](https://pkg.go.dev/github.com/stephenafamo/authboss-oauth1)
-* [oauth1.Provider](https://pkg.go.dev/github.com/stephenafamo/authboss-oauth1?tab=doc#Provider)
-* [oauth1.ServerStorer](https://pkg.go.dev/github.com/stephenafamo/authboss-oauth1/#OAuth1ServerStorer)
 
 ## User Auth via OAuth2
 
