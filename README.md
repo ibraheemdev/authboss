@@ -22,23 +22,7 @@ It is composed of 9 modules:
 * [Lockable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/lockable?tab=doc): locks an account after a specified number of failed sign-in attempts.
 
 
-# Why use Authboss?
-
-Every time you'd like to start a new web project, you really want to get to the heart of what you're
-trying to accomplish very quickly and it would be a sure bet to say one of the systems you're excited
-about implementing and innovating on is not authentication. In fact it's very much the opposite: it's
-one of those things that you have to do and one of those things you loathe to do. Authboss is supposed
-to remove a lot of the tedium that comes with this, as well as a lot of the chances to make mistakes.
-This allows you to care about what you're intending to do, rather than care about ancillary support
-systems required to make what you're intending to do happen.
-
-Here are a few bullet point reasons you might like to try it out:
-
-* Saves you time (Authboss integration time should be less than re-implementation time)
-* Saves you mistakes (at least using Authboss, people can bug fix as a collective and all benefit)
-* Should integrate with or without any web framework
-
-# Readme Table of Contents
+# Table of Contents
 <!-- TOC -->
 
 - [Authboss](#authboss)
@@ -87,13 +71,13 @@ Here are a few bullet point reasons you might like to try it out:
 Authboss is a standard go module. You can install it by running:
 
 ```bash
-go get github.com/ibraheemdev/authboss/...
+$ go get github.com/ibraheemdev/authboss/...
 ```
 
 You can start by generating a user model:
 
 ```bash
-authboss generate:user -d ./user.go
+$ authboss generate:user -d ./user.go
 ```
 
 The generated file will contain a user model implementing the `Authable`, `Recoverable`, `Confirmable`, `Lockable`, `OAuthable`, and `Rememberable` modules. It is a generic implementation that uses an in memory database: 
@@ -146,7 +130,7 @@ You can now edit the methods to suit your database.
 You can generate the default templates using the build in authboss generator:
 
 ```bash
-authboss generate:templates -d ./destination_path
+$ authboss generate:templates -d ./destination_path
 ```
 
 Here's a bit of starter code to set up your routes:
