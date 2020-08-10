@@ -2,9 +2,8 @@
 
 # Authboss
 
-[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4)](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss/v3)
-![ActionsCI](https://github.com/ibraheemdev/authboss/workflows/test/badge.svg)
-[![Mail](https://img.shields.io/badge/mail%20list-authboss-lightgrey.svg)](https://groups.google.com/a/volatile.tech/forum/#!forum/authboss)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4)](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ibraheemdev/authboss)](https://goreportcard.com/report/github.com/ibraheemdev/authboss)
 
 Authboss is a modular authentication system for the web.
 
