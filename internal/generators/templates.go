@@ -11,7 +11,7 @@ import (
 
 // generateTemplatesCmd represents the generateTemplates command
 var generateTemplatesCmd = &cobra.Command{
-	Use:   "generateTemplates",
+	Use:   "generate:templates",
 	Short: "Generates authboss templates",
 	Long:  `Generates the default authboss templates into the specified folder`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -24,7 +24,7 @@ var generateTemplatesCmd = &cobra.Command{
 }
 
 func generateTemplates(cmd *cobra.Command) error {
-	dst, _ := cmd.Flags().GetString("dst")
+	dst, _ := cmd.Flags().GetString("destination")
 
 	if len(dst) == 0 {
 		return fmt.Errorf("You must specify a destination path")
@@ -42,5 +42,5 @@ func generateTemplates(cmd *cobra.Command) error {
 
 func init() {
 	rootCmd.AddCommand(generateTemplatesCmd)
-	generateTemplatesCmd.Flags().StringP("dst", "d", "", "the path the templates will be copied to")
+	generateTemplatesCmd.Flags().StringP("destination", "d", "", "the destination path of the generated templates")
 }

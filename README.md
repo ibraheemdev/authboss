@@ -92,7 +92,7 @@ go get github.com/ibraheemdev/authboss/...
 You can generate the default templates using the build in authboss generator:
 
 ```bash
-authboss generateTemplates -d ./destination_path
+authboss generate:templates -d ./destination_path
 ```
 
 Here's a bit of starter code:
