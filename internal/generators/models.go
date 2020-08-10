@@ -32,8 +32,8 @@ func generateModels(cmd *cobra.Command) error {
 		return fmt.Errorf("You must specify a destination path")
 	}
 	_, c, _, _ := runtime.Caller(0)
-	tplDir := path.Join(c, "../../../examples/models/user.go")
-	err := CopyDir(tplDir, dst)
+	userFile := path.Join(c, "../../../examples/models/user.go")
+	err := CopyFile(userFile, dst)
 	if err != nil {
 		return fmt.Errorf("Could not create the directory: %w", err)
 	}
