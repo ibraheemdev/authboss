@@ -1,5 +1,5 @@
-// Package register allows for user registration.
-package register
+// Package registerable allows for user registration.
+package registerable
 
 import (
 	"context"

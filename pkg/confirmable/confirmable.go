@@ -1,5 +1,5 @@
-// Package confirm implements confirmation of user registration via e-mail
-package confirm
+// Package confirmable implements confirmation of user registration via e-mail
+package confirmable
 
 import (
 	"context"

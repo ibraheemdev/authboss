@@ -1,4 +1,4 @@
-package expire
+package timeoutable
 
 import (
 	"context"

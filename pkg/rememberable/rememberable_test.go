@@ -1,4 +1,4 @@
-package remember
+package rememberable
 
 import (
 	"bytes"

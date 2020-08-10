@@ -1,5 +1,5 @@
-// Package auth implements password based user logins.
-package auth
+// Package authenticatable implements password based user logins.
+package authenticatable
 
 import (
 	"context"

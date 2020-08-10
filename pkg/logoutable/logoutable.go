@@ -1,5 +1,5 @@
-// Package logout allows users to log out (from auth or oauth2 logins)
-package logout
+// Package logoutable allows users to log out (from auth or oauth2 logins)
+package logoutable
 
 import (
 	"fmt"

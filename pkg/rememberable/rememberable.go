@@ -1,5 +1,5 @@
-// Package remember implements persistent logins using cookies
-package remember
+// Package rememberable implements persistent logins using cookies
+package rememberable
 
 import (
 	"bytes"

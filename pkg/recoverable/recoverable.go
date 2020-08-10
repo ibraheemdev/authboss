@@ -1,5 +1,5 @@
-// Package recover implements password reset via e-mail.
-package recover
+// Package recoverable implements password reset via e-mail.
+package recoverable
 
 import (
 	"context"

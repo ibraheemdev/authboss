@@ -1,5 +1,5 @@
-// Package expire helps expire user's logged in sessions
-package expire
+// Package timeoutable helps expire user's logged in sessions
+package timeoutable
 
 import (
 	"context"

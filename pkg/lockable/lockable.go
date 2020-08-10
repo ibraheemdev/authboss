@@ -1,5 +1,5 @@
-// Package lock implements user locking after N bad sign-in attempts.
-package lock
+// Package lockable implements user locking after N bad sign-in attempts.
+package lockable
 
 import (
 	"context"
