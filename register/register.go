@@ -8,7 +8,7 @@ import (
 
 	"github.com/friendsofgo/errors"
 
-	"github.com/volatiletech/authboss/v3"
+	"github.com/ibraheemdev/authboss"
 	"golang.org/x/crypto/bcrypt"
 )
 

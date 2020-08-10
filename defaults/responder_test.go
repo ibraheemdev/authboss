@@ -8,8 +8,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/volatiletech/authboss/v3"
-	"github.com/volatiletech/authboss/v3/mocks"
+	"github.com/ibraheemdev/authboss"
+	"github.com/ibraheemdev/authboss/mocks"
 )
 
 type testRenderer struct {

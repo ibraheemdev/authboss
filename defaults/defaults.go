@@ -10,7 +10,7 @@ package defaults
 import (
 	"os"
 
-	"github.com/volatiletech/authboss/v3"
+	"github.com/ibraheemdev/authboss"
 )
 
 // SetCore creates instances of all the default pieces

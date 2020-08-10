@@ -3,7 +3,7 @@ package defaults
 import (
 	"testing"
 
-	"github.com/volatiletech/authboss/v3"
+	"github.com/ibraheemdev/authboss"
 )
 
 func TestValidate(t *testing.T) {

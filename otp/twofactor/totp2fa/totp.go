@@ -15,8 +15,8 @@ import (
 	"github.com/friendsofgo/errors"
 	"github.com/pquerna/otp"
 	"github.com/pquerna/otp/totp"
-	"github.com/volatiletech/authboss/v3"
-	"github.com/volatiletech/authboss/v3/otp/twofactor"
+	"github.com/ibraheemdev/authboss"
+	"github.com/ibraheemdev/authboss/otp/twofactor"
 )
 
 const (

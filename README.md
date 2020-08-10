@@ -2,8 +2,8 @@
 
 # Authboss
 
-[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4)](https://pkg.go.dev/mod/github.com/volatiletech/authboss/v3)
-![ActionsCI](https://github.com/volatiletech/authboss/workflows/test/badge.svg)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4)](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss/v3)
+![ActionsCI](https://github.com/ibraheemdev/authboss/workflows/test/badge.svg)
 [![Mail](https://img.shields.io/badge/mail%20list-authboss-lightgrey.svg)](https://groups.google.com/a/volatile.tech/forum/#!forum/authboss)
 
 Authboss is a modular authentication system for the web.
@@ -112,7 +112,7 @@ Of course the standard practice of fetching the library is just the beginning:
 
 ```bash
 # Get the latest, you must be using Go modules as of v3 of Authboss.
-go get -u github.com/volatiletech/authboss/v3
+go get -u github.com/ibraheemdev/authboss/v3
 ```
 
 Here's a bit of starter code that was stolen from the sample.
@@ -192,7 +192,7 @@ to your app:
 
 Everything under Config.Storage and Config.Core are required and you must provide them,
 however you can optionally use default implementations from the
-[defaults package](https://github.com/volatiletech/authboss/tree/master/defaults).
+[defaults package](https://github.com/ibraheemdev/authboss/tree/master/defaults).
 This also provides an easy way to share implementations of certain stack pieces (like HTML Form Parsing).
 As you saw in the example above these can be easily initialized with the `SetCore` method in that
 package.
@@ -221,11 +221,11 @@ and the MailRenderer. For more information please see the use case [Rendering Vi
 
 ### ServerStorer implementation
 
-The [ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ServerStorer) is
+The [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer) is
 meant to be upgraded to add capabilities depending on what modules you'd like to use.
 It starts out by only knowing how to save and load users, but the `remember` module as an example
 needs to be able to find users by remember me tokens, so it upgrades to a
-[RememberingServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#RememberingServerStorer)
+[RememberingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RememberingServerStorer)
 which adds these abilities.
 
 Your `ServerStorer` implementation does not need to implement all these additional interfaces
@@ -234,7 +234,7 @@ unless you're using a module that requires it. See the [Use Cases](#use-cases) d
 ### User implementation
 
 Users in Authboss are represented by the
-[User interface](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#User). The user
+[User interface](https://pkg.go.dev/github.com/ibraheemdev/authboss/#User). The user
 interface is a flexible notion, because it can be upgraded to suit the needs of the various modules.
 
 Initially the User must only be able to Get/Set a `PID` or primary identifier. This allows the authboss
@@ -244,7 +244,7 @@ to save/load users.
 As mentioned, it can be upgraded, for example suppose now we want to use the `confirm` module,
 in that case the e-mail address now becomes a requirement. So the `confirm` module will attempt
 to upgrade the user (and panic if it fails) to a
-[ConfirmableUser](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ConfirmableUser)
+[ConfirmableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ConfirmableUser)
 which supports retrieving and setting of confirm tokens, e-mail addresses, and a confirmed state.
 
 Your `User` implementation does not need to implement all these additional user interfaces unless you're
@@ -253,9 +253,9 @@ requirements are.
 
 ### Values implementation
 
-The [BodyReader](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#BodyReader)
+The [BodyReader](https://pkg.go.dev/github.com/ibraheemdev/authboss/#BodyReader)
 interface in the Config returns
-[Validator](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Validator) implementations
+[Validator](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Validator) implementations
 which can be validated. But much like the storer and user it can be upgraded to add different
 capabilities.
 
@@ -266,7 +266,7 @@ requested and switches on that to parse the body in whatever way
 valuer required by the module.
 
 An example of an upgraded `Valuer` is the
-[UserValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#UserValuer)
+[UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#UserValuer)
 which stores and validates the PID and Password that a user has provided for the modules to use.
 
 Your body reader implementation does not need to implement all valuer types unless you're
@@ -279,7 +279,7 @@ The config struct is an important part of Authboss. It's the key to making Authb
 want with the implementations you want. Please look at it's code definition as you read the
 documentation below, it will make much more sense.
 
-[Config Struct Documentation](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Config)
+[Config Struct Documentation](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Config)
 
 ### Paths
 
@@ -301,7 +301,7 @@ Mail sending related options.
 ### Storage
 
 These are the implementations of how storage on the server and the client are done in your
-app. There are no default implementations for these at this time. See the [Godoc](https://pkg.go.dev/mod/github.com/volatiletech/authboss/v3) for more information
+app. There are no default implementations for these at this time. See the [Godoc](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss/v3) for more information
 about what these are.
 
 ### Core
@@ -310,7 +310,7 @@ These are the implementations of the HTTP stack for your app. How do responses r
 they redirected? How are errors handled?
 
 For most of these there are default implementations from the
-[defaults package](https://github.com/volatiletech/authboss/tree/master/defaults) available, but not for all.
+[defaults package](https://github.com/ibraheemdev/authboss/tree/master/defaults) available, but not for all.
 See the package documentation for more information about what's available.
 
 # Available Modules
@@ -324,20 +324,20 @@ for more information.
 
 Name      | Import Path                               | Description
 ----------|-------------------------------------------|------------
-Auth      | github.com/volatiletech/authboss/v3/auth     | Database password authentication for users.
-Confirm   | github.com/volatiletech/authboss/v3/confirm  | Prevents login before e-mail verification.
-Expire    | github.com/volatiletech/authboss/v3/expire   | Expires a user's login
-Lock      | github.com/volatiletech/authboss/v3/lock     | Locks user accounts after authentication failures.
-Logout    | github.com/volatiletech/authboss/v3/logout   | Destroys user sessions for auth/oauth2.
+Auth      | github.com/ibraheemdev/authboss/auth     | Database password authentication for users.
+Confirm   | github.com/ibraheemdev/authboss/confirm  | Prevents login before e-mail verification.
+Expire    | github.com/ibraheemdev/authboss/expire   | Expires a user's login
+Lock      | github.com/ibraheemdev/authboss/lock     | Locks user accounts after authentication failures.
+Logout    | github.com/ibraheemdev/authboss/logout   | Destroys user sessions for auth/oauth2.
 OAuth1    | github.com/stephenafamo/authboss-oauth1      | Provides oauth1 authentication for users.
-OAuth2    | github.com/volatiletech/authboss/v3/oauth2   | Provides oauth2 authentication for users.
-Recover   | github.com/volatiletech/authboss/v3/recover  | Allows for password resets via e-mail.
-Register  | github.com/volatiletech/authboss/v3/register | User-initiated account creation.
-Remember  | github.com/volatiletech/authboss/v3/remember | Persisting login sessions past session cookie expiry.
-OTP       | github.com/volatiletech/authboss/v3/otp      | One time passwords for use instead of passwords.
-Twofactor | github.com/volatiletech/authboss/v3/otp/twofactor | Regenerate recovery codes for 2fa.
-Totp2fa   | github.com/volatiletech/authboss/v3/otp/twofactor/totp2fa | Use Google authenticator-like things for a second auth factor.
-Sms2fa    | github.com/volatiletech/authboss/v3/otp/twofactor/sms2fa | Use a phone for a second auth factor.
+OAuth2    | github.com/ibraheemdev/authboss/oauth2   | Provides oauth2 authentication for users.
+Recover   | github.com/ibraheemdev/authboss/recover  | Allows for password resets via e-mail.
+Register  | github.com/ibraheemdev/authboss/register | User-initiated account creation.
+Remember  | github.com/ibraheemdev/authboss/remember | Persisting login sessions past session cookie expiry.
+OTP       | github.com/ibraheemdev/authboss/otp      | One time passwords for use instead of passwords.
+Twofactor | github.com/ibraheemdev/authboss/otp/twofactor | Regenerate recovery codes for 2fa.
+Totp2fa   | github.com/ibraheemdev/authboss/otp/twofactor/totp2fa | Use Google authenticator-like things for a second auth factor.
+Sms2fa    | github.com/ibraheemdev/authboss/otp/twofactor/sms2fa | Use a phone for a second auth factor.
 
 # Middlewares
 
@@ -354,13 +354,13 @@ use the middlewares if you use the module.
 
 Name | Requirement | Description
 ---- | ----------- | -----------
-[Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Middleware) | Recommended | Prevents unauthenticated users from accessing routes.
-[LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware) | **Required** | Enables cookie and session handling
-[ModuleListMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.ModuleListMiddleware) | Optional | Inserts a loaded module list into the view data
-[confirm.Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/confirm/#Middleware) | Recommended with confirm | Ensures users are confirmed or rejects request
-[expire.Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/expire/#Middleware) | **Required** with expire | Expires user sessions after an inactive period
-[lock.Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/lock/#Middleware) | Recommended with lock | Rejects requests from locked users
-[remember.Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/remember/#Middleware) | Recommended with remember | Logs a user in from a remember cookie
+[Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Middleware) | Recommended | Prevents unauthenticated users from accessing routes.
+[LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware) | **Required** | Enables cookie and session handling
+[ModuleListMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.ModuleListMiddleware) | Optional | Inserts a loaded module list into the view data
+[confirm.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/confirm/#Middleware) | Recommended with confirm | Ensures users are confirmed or rejects request
+[expire.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/expire/#Middleware) | **Required** with expire | Expires user sessions after an inactive period
+[lock.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/lock/#Middleware) | Recommended with lock | Rejects requests from locked users
+[remember.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/remember/#Middleware) | Recommended with remember | Logs a user in from a remember cookie
 
 
 # Use Cases
@@ -368,12 +368,12 @@ Name | Requirement | Description
 ## Get Current User
 
 CurrentUser can be retrieved by calling
-[Authboss.CurrentUser](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.CurrentUser)
+[Authboss.CurrentUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.CurrentUser)
 but a pre-requisite is that
-[Authboss.LoadClientState](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientState)
+[Authboss.LoadClientState](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientState)
 has been called first to load the client state into the request context.
 This is typically achieved by using the
-[Authboss.LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware), but can
+[Authboss.LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), but can
 be done manually as well.
 
 ## Reset Password
@@ -385,14 +385,14 @@ Updating a user's password is non-trivial for several reasons:
 1. Optionally the user should be logged out (**not taken care of by UpdatePassword**)
 
 In order to do this, we can use the
-[Authboss.UpdatePassword](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.UpdatePassword)
+[Authboss.UpdatePassword](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.UpdatePassword)
 method. This ensures the above facets are taken care of which the exception of the logging out part.
 
 If it's also desirable to have the user logged out, please use the following methods to erase
 all known sessions and cookies from the user.
 
-* [authboss.DelKnownSession](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#DelKnownSession)
-* [authboss.DelKnownCookie](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#DelKnownCookie)
+* [authboss.DelKnownSession](https://pkg.go.dev/github.com/ibraheemdev/authboss/#DelKnownSession)
+* [authboss.DelKnownCookie](https://pkg.go.dev/github.com/ibraheemdev/authboss/#DelKnownCookie)
 
 *Note: DelKnownSession has been deprecated for security reasons*
 
@@ -404,11 +404,11 @@ Module        | auth
 Pages         | login
 Routes        | /login
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session and Cookie
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ServerStorer)
-User          | [AuthableUser](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#AuthableUser)
-Values        | [UserValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#UserValuer)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
+User          | [AuthableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#AuthableUser)
+Values        | [UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#UserValuer)
 Mailer        | _None_
 
 To enable this side-effect import the auth module, and ensure that the requirements above are met.
@@ -424,7 +424,7 @@ Module        | oauth1
 Pages         | _None_
 Routes        | /oauth1/{provider}, /oauth1/callback/{provider}
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
 ServerStorer  | [OAuth1ServerStorer](https://pkg.go.dev/github.com/stephenafamo/authboss-oauth1?tab=doc#ServerStorer)
 User          | [OAuth1User](https://pkg.go.dev/github.com/stephenafamo/authboss-oauth1?tab=doc#User)
@@ -459,10 +459,10 @@ Module        | oauth2
 Pages         | _None_
 Routes        | /oauth2/{provider}, /oauth2/callback/{provider}
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
-ServerStorer  | [OAuth2ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#OAuth2ServerStorer)
-User          | [OAuth2User](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#OAuth2User)
+ServerStorer  | [OAuth2ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#OAuth2ServerStorer)
+User          | [OAuth2User](https://pkg.go.dev/github.com/ibraheemdev/authboss/#OAuth2User)
 Values        | _None_
 Mailer        | _None_
 
@@ -476,9 +476,9 @@ These parameters are returned in `map[string]string` form and passed into the `O
 
 Please see the following documentation for more details:
 
-* [Package docs for oauth2](https://pkg.go.dev/github.com/volatiletech/authboss/v3/oauth2/)
-* [authboss.OAuth2Provider](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#OAuth2Provider)
-* [authboss.OAuth2ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#OAuth2ServerStorer)
+* [Package docs for oauth2](https://pkg.go.dev/github.com/ibraheemdev/authboss/oauth2/)
+* [authboss.OAuth2Provider](https://pkg.go.dev/github.com/ibraheemdev/authboss/#OAuth2Provider)
+* [authboss.OAuth2ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#OAuth2ServerStorer)
 
 ## User Registration
 
@@ -488,11 +488,11 @@ Module        | register
 Pages         | register
 Routes        | /register
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
-ServerStorer  | [CreatingServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#CreatingServerStorer)
-User          | [AuthableUser](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#AuthableUser), optionally [ArbitraryUser](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ArbitraryUser)
-Values        | [UserValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#UserValuer), optionally also [ArbitraryValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ArbitraryValuer)
+ServerStorer  | [CreatingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#CreatingServerStorer)
+User          | [AuthableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#AuthableUser), optionally [ArbitraryUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ArbitraryUser)
+Values        | [UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#UserValuer), optionally also [ArbitraryValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ArbitraryValuer)
 Mailer        | _None_
 
 Users can self-register for a service using this module. You may optionally want them to confirm
@@ -511,7 +511,7 @@ This means the (whitelisted) values entered by the user previously will be acces
 templates by using `.preserve.field_name`. Preserve may be empty or nil so use
 `{{with ...}}` to make sure you don't have template errors.
 
-There is additional [Godoc documentation](https://pkg.go.dev/mod/github.com/volatiletech/authboss/v3#Config) on the `RegisterPreserveFields` config option as well as
+There is additional [Godoc documentation](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss/v3#Config) on the `RegisterPreserveFields` config option as well as
 the `ArbitraryUser` and `ArbitraryValuer` interfaces themselves.
 
 ## Confirming Registrations
@@ -522,11 +522,11 @@ Module        | confirm
 Pages         | confirm
 Routes        | /confirm
 Emails        | confirm_html, confirm_txt
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware), [confirm.Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/confirm/#Middleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), [confirm.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/confirm/#Middleware)
 ClientStorage | Session
-ServerStorer  | [ConfirmingServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ConfirmingServerStorer)
-User          | [ConfirmableUser](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ConfirmableUser)
-Values        | [ConfirmValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ConfirmValuer)
+ServerStorer  | [ConfirmingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ConfirmingServerStorer)
+User          | [ConfirmableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ConfirmableUser)
+Values        | [ConfirmValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ConfirmValuer)
 Mailer        | Required
 
 Confirming registrations via e-mail can be done with this module (whether or not done via the register
@@ -548,11 +548,11 @@ Module        | recover
 Pages         | recover_start, recover_middle (not used for renders, only values), recover_end
 Routes        | /recover, /recover/end
 Emails        | recover_html, recover_txt
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
-ServerStorer  | [RecoveringServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#RecoveringServerStorer)
-User          | [RecoverableUser](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#RecoverableUser)
-Values        | [RecoverStartValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#RecoverStartValuer), [RecoverMiddleValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#RecoverMiddleValuer), [RecoverEndValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#RecoverEndValuer)
+ServerStorer  | [RecoveringServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoveringServerStorer)
+User          | [RecoverableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoverableUser)
+Values        | [RecoverStartValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoverStartValuer), [RecoverMiddleValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoverMiddleValuer), [RecoverEndValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoverEndValuer)
 Mailer        | Required
 
 The flow for password recovery is that the user is initially shown a page that wants their `PID` to
@@ -578,11 +578,11 @@ Pages         | _None_
 Routes        | _None_
 Emails        | _None_
 Middlewares   | LoadClientStateMiddleware,
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware), [remember.Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/remember/#Middleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), [remember.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/remember/#Middleware)
 ClientStorage | Session, Cookies
-ServerStorer  | [RememberingServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#RememberingServerStorer)
+ServerStorer  | [RememberingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RememberingServerStorer)
 User          | User
-Values        | [RememberValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#RememberValuer) (not a Validator)
+Values        | [RememberValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RememberValuer) (not a Validator)
 Mailer        | _None_
 
 Remember uses cookie storage to log in users without a session via the `remember.Middleware`.
@@ -609,10 +609,10 @@ Module        | lock
 Pages         | _None_
 Routes        | _None_
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware), [lock.Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/lock/#Middleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), [lock.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/lock/#Middleware)
 ClientStorage | Session
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ServerStorer)
-User          | [LockableUser](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#LockableUser)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
+User          | [LockableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#LockableUser)
 Values        | _None_
 Mailer        | _None_
 
@@ -630,10 +630,10 @@ Module        | expire
 Pages         | _None_
 Routes        | _None_
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware), [expire.Middleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/expire/#Middleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), [expire.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/expire/#Middleware)
 ClientStorage | Session
 ServerStorer  | _None_
-User          | [User](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#User)
+User          | [User](https://pkg.go.dev/github.com/ibraheemdev/authboss/#User)
 Values        | _None_
 Mailer        | _None_
 
@@ -655,11 +655,11 @@ Module        | otp
 Pages         | otp, otpadd, otpclear
 Routes        | /otp/login, /otp/add, /otp/clear
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session and Cookie
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ServerStorer)
-User          | [otp.User](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/#User)
-Values        | [UserValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#UserValuer)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
+User          | [otp.User](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/#User)
+Values        | [UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#UserValuer)
 Mailer        | _None_
 
 One time passwords can be useful if users require a backup password in case they lose theirs,
@@ -690,10 +690,10 @@ Module        | twofactor
 Pages         | recovery2fa
 Routes        | /2fa/recovery/regen
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ServerStorer)
-User          | [twofactor.User](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/#User)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
+User          | [twofactor.User](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/#User)
 Values        | _None_
 Mailer        | _None_
 
@@ -719,11 +719,11 @@ Module        | twofactor
 Pages         | twofactor_verify
 Routes        | /2fa/recovery/regen
 Emails        | twofactor_verify_email_html, twofactor_verify_email_txt
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ServerStorer)
-User          | [twofactor.User](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/#User)
-Values        | [twofactor.EmailVerifyTokenValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/#EmailVerifyTokenValuer)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
+User          | [twofactor.User](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/#User)
+Values        | [twofactor.EmailVerifyTokenValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/#EmailVerifyTokenValuer)
 Mailer        | Required
 
 To enable this feature simply turn on
@@ -752,11 +752,11 @@ Module        | totp2fa
 Pages         | totp2fa_{setup,confirm,remove,validate}, totp2fa_{confirm,remove}_success
 Routes        | /2fa/totp/{setup,confirm,qr,remove,validate}
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session **(SECURE!)**
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ServerStorer)
-User          | [totp2fa.User](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/totp2fa/#User)
-Values        | [TOTPCodeValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/totp2fa/#TOTPCodeValuer)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
+User          | [totp2fa.User](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/totp2fa/#User)
+Values        | [TOTPCodeValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/totp2fa/#TOTPCodeValuer)
 Mailer        | _None_
 
 **Note:** Unlike most modules in Authboss you must construct a `totp2fa.TOTP` and call `.Setup()`
@@ -816,11 +816,11 @@ Module        | sms2fa
 Pages         | sms2fa_{setup,confirm,remove,validate}, sms2fa_{confirm,remove}_success
 Routes        | /2fa/{setup,confirm,remove,validate}
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session (**SECURE!**)
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#ServerStorer)
-User          | [sms2fa.User](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/sms2fa/#User), [sms2fa.SMSNumberProvider](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/sms2fa/#SMSNumberProvider)
-Values        | [SMSValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/sms2fa/#SMSValuer), [SMSPhoneNumberValuer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/otp/twofactor/sms2fa/#SMSPhoneNumberValuer)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
+User          | [sms2fa.User](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/sms2fa/#User), [sms2fa.SMSNumberProvider](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/sms2fa/#SMSNumberProvider)
+Values        | [SMSValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/sms2fa/#SMSValuer), [SMSPhoneNumberValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/otp/twofactor/sms2fa/#SMSPhoneNumberValuer)
 Mailer        | _None_
 
 **Note:** Unlike most modules in Authboss you must construct a `sms2fa.SMS` and call `.Setup()`
@@ -879,7 +879,7 @@ Same as totp2fa above.
 
 ## Rendering Views
 
-The authboss rendering system is simple. It's defined by one interface: [Renderer](https://pkg.go.dev/github.com/volatiletech/authboss/v3/#Renderer)
+The authboss rendering system is simple. It's defined by one interface: [Renderer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Renderer)
 
 The renderer knows how to load templates, and how to render them with some data and that's it.
 So let's examine the most common view types that you might want to use.
@@ -901,7 +901,7 @@ want to integrate your own rendering system into that interface.
 
 If you're building an API that's mostly backed by a javascript front-end, then you'll probably
 want to use a renderer that converts the data to JSON. There is a simple json renderer available in
-the [defaults package](https://github.com/volatiletech/authboss/tree/master/defaults) package if you wish to
+the [defaults package](https://github.com/ibraheemdev/authboss/tree/master/defaults) package if you wish to
 use that.
 
 ### Data
@@ -909,10 +909,10 @@ use that.
 The most important part about this interface is the data that you have to render.
 There are several keys that are used throughout authboss that you'll want to render in your views.
 
-They're in the file [html_data.go](https://github.com/volatiletech/authboss/blob/master/html_data.go)
+They're in the file [html_data.go](https://github.com/ibraheemdev/authboss/blob/master/html_data.go)
 and are constants prefixed with `Data`. See the documentation in that file for more information on
 which keys exist and what they contain.
 
-The default [responder](https://pkg.go.dev/github.com/volatiletech/authboss/v3/defaults/#Responder)
+The default [responder](https://pkg.go.dev/github.com/ibraheemdev/authboss/defaults/#Responder)
 also happens to collect data from the Request context, and hence this is a great place to inject
 data you'd like to render (for example data for your html layout, or csrf tokens).

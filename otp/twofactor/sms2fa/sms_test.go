@@ -6,11 +6,11 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/volatiletech/authboss/v3/otp/twofactor"
+	"github.com/ibraheemdev/authboss/otp/twofactor"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/volatiletech/authboss/v3"
-	"github.com/volatiletech/authboss/v3/mocks"
+	"github.com/ibraheemdev/authboss"
+	"github.com/ibraheemdev/authboss/mocks"
 )
 
 type smsHolderSender string

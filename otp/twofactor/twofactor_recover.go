@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/volatiletech/authboss/v3"
+	"github.com/ibraheemdev/authboss"
 	"golang.org/x/crypto/bcrypt"
 )
 

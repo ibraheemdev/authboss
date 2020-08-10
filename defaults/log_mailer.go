@@ -5,7 +5,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/volatiletech/authboss/v3"
+	"github.com/ibraheemdev/authboss"
 )
 
 // LogMailer logs e-mails instead of sending them.

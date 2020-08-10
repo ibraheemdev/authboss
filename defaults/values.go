@@ -8,7 +8,7 @@ import (
 	"regexp"
 
 	"github.com/friendsofgo/errors"
-	"github.com/volatiletech/authboss/v3"
+	"github.com/ibraheemdev/authboss"
 )
 
 // FormValue types
