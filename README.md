@@ -1,5 +1,3 @@
-<img src="http://i.imgur.com/fPIgqLg.jpg"/>
-
 # Authboss
 
 [![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4)](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss)
