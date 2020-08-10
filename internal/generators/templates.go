@@ -3,8 +3,8 @@ package generators
 import (
 	"fmt"
 	"os"
+	"path"
 	"runtime"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -29,8 +29,8 @@ func generateTemplates(cmd *cobra.Command) error {
 	if len(dst) == 0 {
 		return fmt.Errorf("You must specify a destination path")
 	}
-	_, tplDir, _, _ := runtime.Caller(0)
-	tplDir = strings.TrimSuffix(tplDir, "internal/generators/templates.go") + "web/templates"
+	_, c, _, _ := runtime.Caller(0)
+	tplDir := path.Join(c, "../../../web/templates")
 	err := CopyDir(tplDir, dst)
 	if err != nil {
 		return fmt.Errorf("Could not create the directory: %w", err)
