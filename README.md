@@ -83,21 +83,13 @@ Here are a few bullet point reasons you might like to try it out:
 
 # Getting Started
 
-To get started with Authboss in the simplest way, is to simply create a Config, populate it
-with the things that are required, and start implementing [use cases](#use-cases). The use
-cases describe what's required to be able to use a particular piece of functionality,
-or the best practice when implementing a piece of functionality. Please note the
-[app requirements](#app-requirements) for your application as well
-[integration requirements](#integration-requirements) that follow.
-
-Of course the standard practice of fetching the library is just the beginning:
+Authboss is a standard go module. You can install it by running:
 
 ```bash
-# Get the latest, you must be using Go modules as of v3 of Authboss.
-go get -u github.com/ibraheemdev/authboss/v3
+go get -u github.com/ibraheemdev/authboss
 ```
 
-Here's a bit of starter code that was stolen from the sample.
+Here's a bit of starter code:
 
 ```go
 ab := authboss.New()
@@ -109,14 +101,12 @@ ab.Config.Storage.CookieState = myCookieImplementation
 ab.Config.Paths.Mount = "/authboss"
 ab.Config.Paths.RootURL = "https://www.example.com/"
 
-// This is using the renderer from: github.com/volatiletech/authboss
+// This is using the renderer from: github.com/volatiletech/authboss-renderer
 ab.Config.Core.ViewRenderer = abrenderer.NewHTML("/auth", "ab_views")
-// Probably want a MailRenderer here too.
-
+ab.Config.Core.MailRenderer = abrenderer.NewEmail("/auth", "ab_views")
 
 // This instantiates and uses every default implementation
 // in the Config.Core area that exist in the defaults package.
-// Just a convenient helper if you don't want to do anything fancy.
  defaults.SetCore(&ab.Config, false, false)
 
 if err := ab.Init(); err != nil {
@@ -124,13 +114,11 @@ if err := ab.Init(); err != nil {
 }
 
 // Mount the router to a path (this should be the same as the Mount path above)
-// mux in this example is a chi router, but it could be anything that can route to
-// the Core.Router.
+// mux in this example is a chi router
 mux.Mount("/authboss", http.StripPrefix("/authboss", ab.Config.Core.Router))
 ```
 
-For a more in-depth look you **definitely should** look at the authboss sample to see what a full 
-implementation looks like. This will probably help you more than any of this documentation.
+For a more in-depth look, refer to the the authboss sample to see what a full implementation looks like. This will probably help you more than any of this documentation.
 
 [https://github.com/volatiletech/authboss-sample](https://github.com/volatiletech/authboss-sample)
 
@@ -203,11 +191,11 @@ and the MailRenderer. For more information please see the use case [Rendering Vi
 
 ### ServerStorer implementation
 
-The [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer) is
+The [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#ServerStorer) is
 meant to be upgraded to add capabilities depending on what modules you'd like to use.
 It starts out by only knowing how to save and load users, but the `remember` module as an example
 needs to be able to find users by remember me tokens, so it upgrades to a
-[RememberingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RememberingServerStorer)
+[RememberingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#RememberingServerStorer)
 which adds these abilities.
 
 Your `ServerStorer` implementation does not need to implement all these additional interfaces
@@ -216,7 +204,7 @@ unless you're using a module that requires it. See the [Use Cases](#use-cases) d
 ### User implementation
 
 Users in Authboss are represented by the
-[User interface](https://pkg.go.dev/github.com/ibraheemdev/authboss/#User). The user
+[User interface](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#User). The user
 interface is a flexible notion, because it can be upgraded to suit the needs of the various modules.
 
 Initially the User must only be able to Get/Set a `PID` or primary identifier. This allows the authboss
@@ -226,7 +214,7 @@ to save/load users.
 As mentioned, it can be upgraded, for example suppose now we want to use the `confirm` module,
 in that case the e-mail address now becomes a requirement. So the `confirm` module will attempt
 to upgrade the user (and panic if it fails) to a
-[ConfirmableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ConfirmableUser)
+[ConfirmableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#ConfirmableUser)
 which supports retrieving and setting of confirm tokens, e-mail addresses, and a confirmed state.
 
 Your `User` implementation does not need to implement all these additional user interfaces unless you're
@@ -235,9 +223,9 @@ requirements are.
 
 ### Values implementation
 
-The [BodyReader](https://pkg.go.dev/github.com/ibraheemdev/authboss/#BodyReader)
+The [BodyReader](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#BodyReader)
 interface in the Config returns
-[Validator](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Validator) implementations
+[Validator](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Validator) implementations
 which can be validated. But much like the storer and user it can be upgraded to add different
 capabilities.
 
@@ -248,7 +236,7 @@ requested and switches on that to parse the body in whatever way
 valuer required by the module.
 
 An example of an upgraded `Valuer` is the
-[UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#UserValuer)
+[UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#UserValuer)
 which stores and validates the PID and Password that a user has provided for the modules to use.
 
 Your body reader implementation does not need to implement all valuer types unless you're
@@ -261,7 +249,7 @@ The config struct is an important part of Authboss. It's the key to making Authb
 want with the implementations you want. Please look at it's code definition as you read the
 documentation below, it will make much more sense.
 
-[Config Struct Documentation](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Config)
+[Config Struct Documentation](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Config)
 
 ### Paths
 
@@ -283,7 +271,7 @@ Mail sending related options.
 ### Storage
 
 These are the implementations of how storage on the server and the client are done in your
-app. There are no default implementations for these at this time. See the [Godoc](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss/v3) for more information
+app. There are no default implementations for these at this time. See the [Godoc](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss) for more information
 about what these are.
 
 ### Core
@@ -292,7 +280,7 @@ These are the implementations of the HTTP stack for your app. How do responses r
 they redirected? How are errors handled?
 
 For most of these there are default implementations from the
-[defaults package](https://github.com/ibraheemdev/authboss/tree/master/defaults) available, but not for all.
+[defaults package](https://github.com/ibraheemdev/authboss/tree/master/pkg/authboss/defaults) available, but not for all.
 See the package documentation for more information about what's available.
 
 # Middlewares
@@ -310,13 +298,13 @@ use the middlewares if you use the module.
 
 Name | Requirement | Description
 ---- | ----------- | -----------
-[Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Middleware) | Recommended | Prevents unauthenticated users from accessing routes.
-[LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware) | **Required** | Enables cookie and session handling
-[ModuleListMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.ModuleListMiddleware) | Optional | Inserts a loaded module list into the view data
-[confirm.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/confirm/#Middleware) | Recommended with confirm | Ensures users are confirmed or rejects request
-[expire.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/expire/#Middleware) | **Required** with expire | Expires user sessions after an inactive period
-[lock.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/lock/#Middleware) | Recommended with lock | Rejects requests from locked users
-[remember.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/remember/#Middleware) | Recommended with remember | Logs a user in from a remember cookie
+[Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Middleware) | Recommended | Prevents unauthenticated users from accessing routes.
+[LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Authboss.LoadClientStateMiddleware) | **Required** | Enables cookie and session handling
+[ModuleListMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Authboss.ModuleListMiddleware) | Optional | Inserts a loaded module list into the view data
+[confirm.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=docconfirm/#Middleware) | Recommended with confirm | Ensures users are confirmed or rejects request
+[expire.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/expire/#Middleware) | **Required** with expire | Expires user sessions after an inactive period
+[lock.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/lock/#Middleware) | Recommended with lock | Rejects requests from locked users
+[remember.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/remember/#Middleware) | Recommended with remember | Logs a user in from a remember cookie
 
 
 # Use Cases
@@ -324,12 +312,12 @@ Name | Requirement | Description
 ## Get Current User
 
 CurrentUser can be retrieved by calling
-[Authboss.CurrentUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.CurrentUser)
+[Authboss.CurrentUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.CurrentUser)
 but a pre-requisite is that
-[Authboss.LoadClientState](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientState)
+[Authboss.LoadClientState](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientState)
 has been called first to load the client state into the request context.
 This is typically achieved by using the
-[Authboss.LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), but can
+[Authboss.LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware), but can
 be done manually as well.
 
 ## Reset Password
@@ -341,14 +329,14 @@ Updating a user's password is non-trivial for several reasons:
 1. Optionally the user should be logged out (**not taken care of by UpdatePassword**)
 
 In order to do this, we can use the
-[Authboss.UpdatePassword](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.UpdatePassword)
+[Authboss.UpdatePassword](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.UpdatePassword)
 method. This ensures the above facets are taken care of which the exception of the logging out part.
 
 If it's also desirable to have the user logged out, please use the following methods to erase
 all known sessions and cookies from the user.
 
-* [authboss.DelKnownSession](https://pkg.go.dev/github.com/ibraheemdev/authboss/#DelKnownSession)
-* [authboss.DelKnownCookie](https://pkg.go.dev/github.com/ibraheemdev/authboss/#DelKnownCookie)
+* [authboss.DelKnownSession](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#DelKnownSession)
+* [authboss.DelKnownCookie](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#DelKnownCookie)
 
 *Note: DelKnownSession has been deprecated for security reasons*
 
@@ -362,9 +350,9 @@ Routes        | /login
 Emails        | _None_
 Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session and Cookie
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
-User          | [AuthableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#AuthableUser)
-Values        | [UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#UserValuer)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#ServerStorer)
+User          | [AuthableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#AuthableUser)
+Values        | [UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#UserValuer)
 Mailer        | _None_
 
 To enable this side-effect import the auth module, and ensure that the requirements above are met.
@@ -381,10 +369,10 @@ Module        | oauth2
 Pages         | _None_
 Routes        | /oauth2/{provider}, /oauth2/callback/{provider}
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
-ServerStorer  | [OAuth2ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#OAuth2ServerStorer)
-User          | [OAuth2User](https://pkg.go.dev/github.com/ibraheemdev/authboss/#OAuth2User)
+ServerStorer  | [OAuth2ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#OAuth2ServerStorer)
+User          | [OAuth2User](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#OAuth2User)
 Values        | _None_
 Mailer        | _None_
 
@@ -398,9 +386,9 @@ These parameters are returned in `map[string]string` form and passed into the `O
 
 Please see the following documentation for more details:
 
-* [Package docs for oauth2](https://pkg.go.dev/github.com/ibraheemdev/authboss/oauth2/)
-* [authboss.OAuth2Provider](https://pkg.go.dev/github.com/ibraheemdev/authboss/#OAuth2Provider)
-* [authboss.OAuth2ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#OAuth2ServerStorer)
+* [Package docs for oauth2](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/oauth2/)
+* [authboss.OAuth2Provider](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#OAuth2Provider)
+* [authboss.OAuth2ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#OAuth2ServerStorer)
 
 ## User Registration
 
