@@ -11,13 +11,23 @@ import (
 	"github.com/ibraheemdev/authboss/test"
 )
 
+func TestInit(t *testing.T) {
+	t.Parallel()
+
+	ab := authboss.New()
+	err := new(Timeout).Init(ab)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestExpireSetup(t *testing.T) {
 	ab := authboss.New()
 
 	clientRW := test.NewClientRW()
 	ab.Storage.SessionState = clientRW
 
-	Setup(ab)
+	new(Timeout).Init(ab)
 
 	w := httptest.NewRecorder()
 	wr := ab.NewResponse(w)

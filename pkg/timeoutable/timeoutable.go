@@ -14,12 +14,22 @@ import (
 
 var nowTime = time.Now
 
-// Setup the expire module
+func init() {
+	authboss.RegisterModule("timeout", &Timeout{})
+}
+
+// Timeout module
+type Timeout struct {
+	*authboss.Authboss
+}
+
+// Init the expire module
 //
 // This installs a hook into the login process so that the
 // LastAction is recorded immediately.
-func Setup(ab *authboss.Authboss) error {
-	ab.Events.After(authboss.EventAuth, func(w http.ResponseWriter, r *http.Request, handled bool) (bool, error) {
+func (t *Timeout) Init(ab *authboss.Authboss) error {
+	t.Authboss = ab
+	t.Events.After(authboss.EventAuth, func(w http.ResponseWriter, r *http.Request, handled bool) (bool, error) {
 		refreshExpiry(w)
 		return false, nil
 	})
