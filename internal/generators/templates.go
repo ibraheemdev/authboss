@@ -30,7 +30,7 @@ func generateTemplates(cmd *cobra.Command) error {
 		return fmt.Errorf("You must specify a destination path")
 	}
 	_, tplDir, _, _ := runtime.Caller(0)
-	tplDir = strings.TrimSuffix(tplDir, "cmd/generateTemplates.go") + "web/templates"
+	tplDir = strings.TrimSuffix(tplDir, "generators/templates.go") + "web/templates"
 	err := CopyDir(tplDir, dst)
 	if err != nil {
 		return fmt.Errorf("Could not create the directory: %w", err)
