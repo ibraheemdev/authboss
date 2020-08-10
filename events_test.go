@@ -121,29 +121,3 @@ func TestEventsErrors(t *testing.T) {
 		t.Error("expected second to not have been called")
 	}
 }
-
-func TestEventString(t *testing.T) {
-	t.Parallel()
-
-	tests := []struct {
-		ev  Event
-		str string
-	}{
-		{EventRegister, "EventRegister"},
-		{EventAuth, "EventAuth"},
-		{EventOAuth2, "EventOAuth2"},
-		{EventAuthFail, "EventAuthFail"},
-		{EventOAuth2Fail, "EventOAuth2Fail"},
-		{EventRecoverStart, "EventRecoverStart"},
-		{EventRecoverEnd, "EventRecoverEnd"},
-		{EventGetUser, "EventGetUser"},
-		{EventGetUserSession, "EventGetUserSession"},
-		{EventPasswordReset, "EventPasswordReset"},
-	}
-
-	for i, test := range tests {
-		if got := test.ev.String(); got != test.str {
-			t.Errorf("%d) Wrong string for Event(%d) expected: %v got: %s", i, test.ev, test.str, got)
-		}
-	}
-}
