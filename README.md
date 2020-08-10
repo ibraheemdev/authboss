@@ -21,16 +21,6 @@ It's composed of 9 modules:
 * [Lockable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/lockable?tab=doc): locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
 
 
-# New to v2?
-
-v1 -> v2 was a very big change. If you're looking to upgrade there is a general guide in
-[tov2.md](tov2.md) in this project.
-
-# New to v3?
-
-v2 -> v3 was not a big change, it simply changed the project to use Go modules.
-Authboss no longer supports GOPATH as of version 3
-
 # Why use Authboss?
 
 Every time you'd like to start a new web project, you really want to get to the heart of what you're
@@ -51,8 +41,6 @@ Here are a few bullet point reasons you might like to try it out:
 <!-- TOC -->
 
 - [Authboss](#authboss)
-- [New to v2?](#new-to-v2)
-- [New to v3?](#new-to-v3)
 - [Why use Authboss?](#why-use-authboss)
 - [Readme Table of Contents](#readme-table-of-contents)
 - [Getting Started](#getting-started)
