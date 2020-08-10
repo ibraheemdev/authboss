@@ -83,10 +83,16 @@ Here are a few bullet point reasons you might like to try it out:
 
 # Getting Started
 
-Authboss is a standard go module. You can install it by running:
+Authboss is a standard go module. You can install all the binaries by running:
 
 ```bash
-go get -u github.com/ibraheemdev/authboss
+go get github.com/ibraheemdev/authboss/...
+```
+
+You can generate the default templates using the build in authboss generators:
+
+```bash
+authboss generateTemplates -d "./destination_path"
 ```
 
 Here's a bit of starter code:
