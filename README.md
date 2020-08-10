@@ -4,6 +4,7 @@
 
 [![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4)](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ibraheemdev/authboss)](https://goreportcard.com/report/github.com/ibraheemdev/authboss)
+[![Gopherbadger](https://img.shields.io/badge/Go%20Coverage-85.8%25-brightgreen.svg?longCache=true&style=flat)](https://github.com/jpoles1/gopherbadger)
 
 Authboss is a modular authentication system for the web.
 
