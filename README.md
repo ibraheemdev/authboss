@@ -6,12 +6,22 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/ibraheemdev/authboss)](https://goreportcard.com/report/github.com/ibraheemdev/authboss)
 [![Gopherbadger](https://img.shields.io/badge/Go%20Coverage-85.8%25-brightgreen.svg?longCache=true&style=flat)](https://github.com/jpoles1/gopherbadger)
 
-Authboss is a modular authentication system for the web.
+Authboss is a flexible authentication solution for Go Web Applications. It makes it easy 
+to plug in authentication to an application and get a lot of functionality with little
+effort.
 
-It has several modules that represent authentication and authorization features that are common
-to websites in general so that you can enable as many as you need, and leave the others out.
-It makes it easy to plug in authentication to an application and get a lot of functionality
-for (hopefully) a smaller amount of integration effort.
+It's composed of 9 modules:
+
+* [Database Authenticatable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/authenticatable?tab=doc): hashes and stores a password in the database to validate the authenticity of a user while signing in.
+* [Logoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/logoutable?tab=doc): implements user logout functionality
+* [OAuthable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/oauthable?tab=doc): adds OAuth support.
+* [Confirmable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/confirmable?tab=doc): sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
+* [Recoverable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/recoverable?tab=doc): resets the user password and sends reset instructions.
+* [Registerable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/registerable?tab=doc): handles signing up users through a registration process, also allowing them to edit and destroy their account.
+* [Rememberable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/rememberable?tab=doc): manages generating and clearing a token for remembering the user from a saved cookie.
+* [Timeoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/timeoutable?tab=doc): expires sessions that have not been active in a specified period of time.
+* [Lockable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/lockable?tab=doc): locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
+
 
 # New to v2?
 
