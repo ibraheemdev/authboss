@@ -1,4 +1,7 @@
-// Package timeoutable helps expire user's logged in sessions
+// Package timeoutable takes care of verifying whether a user session has
+// already expired or not. When a session expires after the configured time,
+// the user will be asked for credentials again, it means, they will
+// be redirected to the sign in page.
 package timeoutable
 
 import (

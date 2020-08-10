@@ -1,4 +1,5 @@
-// Package rememberable implements persistent logins using cookies
+// Package rememberable manages generating and clearing token
+// for implementing persistent user logins from a saved cookie.
 package rememberable
 
 import (

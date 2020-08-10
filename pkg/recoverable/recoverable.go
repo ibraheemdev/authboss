@@ -1,4 +1,5 @@
-// Package recoverable implements password reset via e-mail.
+// Package recoverable takes care of resetting a user's password
+// and sending reset instructions via email
 package recoverable
 
 import (

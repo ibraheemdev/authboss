@@ -146,16 +146,16 @@ func (o *OAuth2) Start(w http.ResponseWriter, r *http.Request) error {
 		authboss.DelSession(w, authboss.SessionOAuth2Params)
 	}
 
-	authCodeUrl := cfg.OAuth2Config.AuthCodeURL(state)
+	authCodeURL := cfg.OAuth2Config.AuthCodeURL(state)
 
 	extraParams := cfg.AdditionalParams.Encode()
 	if len(extraParams) > 0 {
-		authCodeUrl = fmt.Sprintf("%s&%s", authCodeUrl, extraParams)
+		authCodeURL = fmt.Sprintf("%s&%s", authCodeURL, extraParams)
 	}
 
 	ro := authboss.RedirectOptions{
 		Code:         http.StatusTemporaryRedirect,
-		RedirectPath: authCodeUrl,
+		RedirectPath: authCodeURL,
 	}
 	return o.Authboss.Core.Redirector.Redirect(w, r, ro)
 }

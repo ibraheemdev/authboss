@@ -1,4 +1,5 @@
-// Package lockable implements user locking after N bad sign-in attempts.
+// Package lockable handles blocking a user access after
+// a certain number of bad login attempts
 package lockable
 
 import (

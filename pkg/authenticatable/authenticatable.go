@@ -1,4 +1,5 @@
-// Package authenticatable implements password based user logins.
+// Package authenticatable is responsible for hashing the password
+// and validating the authenticity of a user while signing in.
 package authenticatable
 
 import (

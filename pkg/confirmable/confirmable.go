@@ -1,4 +1,7 @@
-// Package confirmable implements confirmation of user registration via e-mail
+// Package confirmable is responsible for verifying if an account is already
+// confirmed to sign in, and to send emails with confirmation instructions.
+// Confirmation instructions are sent to the user email after creating a
+// record and when manually requested by a new confirmation instruction request.
 package confirmable
 
 import (

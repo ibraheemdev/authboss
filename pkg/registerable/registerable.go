@@ -1,4 +1,5 @@
-// Package registerable allows for user registration.
+// Package registerable is responsible for everything related to
+// registering a new resource (ie user sign up).
 package registerable
 
 import (
