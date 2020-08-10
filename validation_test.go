@@ -1,9 +1,8 @@
 package authboss
 
 import (
+	"errors"
 	"testing"
-
-	"github.com/friendsofgo/errors"
 )
 
 type mockFieldError struct {

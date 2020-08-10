@@ -7,10 +7,10 @@ import (
 	"crypto/rand"
 	"crypto/sha512"
 	"encoding/base64"
+	"fmt"
 	"io"
 	"net/http"
 
-	"github.com/friendsofgo/errors"
 	"github.com/ibraheemdev/authboss"
 )
 
@@ -132,7 +132,7 @@ func Authenticate(ab *authboss.Authboss, w http.ResponseWriter, req **http.Reque
 	}
 
 	if err = storer.AddRememberToken((*req).Context(), pid, hash); err != nil {
-		return errors.Wrap(err, "failed to save remember me token")
+		return fmt.Errorf("failed to save remember me token %w", err)
 	}
 
 	*req = (*req).WithContext(context.WithValue((*req).Context(), authboss.CTXKeyPID, pid))
@@ -170,7 +170,7 @@ func GenerateToken(pid string) (hash string, token string, err error) {
 	rawToken[len(pid)] = ';'
 
 	if _, err := io.ReadFull(rand.Reader, rawToken[len(pid)+1:]); err != nil {
-		return "", "", errors.Wrap(err, "failed to create remember me nonce")
+		return "", "", fmt.Errorf("%wfailed to create remember me nonce", err)
 	}
 
 	sum := sha512.Sum512(rawToken)

@@ -40,6 +40,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -49,7 +50,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/friendsofgo/errors"
 	"golang.org/x/oauth2"
 
 	"github.com/ibraheemdev/authboss"
@@ -115,13 +115,13 @@ func (o *OAuth2) Start(w http.ResponseWriter, r *http.Request) error {
 	logger.Infof("started oauth2 flow for provider: %s", provider)
 	cfg, ok := o.Authboss.Config.Modules.OAuth2Providers[provider]
 	if !ok {
-		return errors.Errorf("oauth2 provider %q not found", provider)
+		return fmt.Errorf("oauth2 provider %q not found", provider)
 	}
 
 	// Create nonce
 	nonce := make([]byte, 32)
 	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
-		return errors.Wrap(err, "failed to create nonce")
+		return fmt.Errorf("%w failed to create nonce", err)
 	}
 
 	state := base64.URLEncoding.EncodeToString(nonce)
@@ -173,7 +173,7 @@ func (o *OAuth2) End(w http.ResponseWriter, r *http.Request) error {
 	// This shouldn't happen because the router should 404 first, but just in case
 	cfg, ok := o.Authboss.Config.Modules.OAuth2Providers[provider]
 	if !ok {
-		return errors.Errorf("oauth2 provider %q not found", provider)
+		return fmt.Errorf("oauth2 provider %q not found", provider)
 	}
 
 	wantState, ok := authboss.GetSession(r, authboss.SessionOAuth2State)
@@ -192,7 +192,7 @@ func (o *OAuth2) End(w http.ResponseWriter, r *http.Request) error {
 	var params map[string]string
 	if ok {
 		if err := json.Unmarshal([]byte(rawParams), &params); err != nil {
-			return errors.Wrap(err, "failed to decode oauth2 params")
+			return fmt.Errorf("%w failed to decode oauth2 params", err)
 		}
 	}
 
@@ -223,7 +223,7 @@ func (o *OAuth2) End(w http.ResponseWriter, r *http.Request) error {
 	code := r.FormValue("code")
 	token, err := exchanger(cfg.OAuth2Config, r.Context(), code)
 	if err != nil {
-		return errors.Wrap(err, "could not validate oauth2 code")
+		return fmt.Errorf("%w could not validate oauth2 code", err)
 	}
 
 	details, err := cfg.FindUserDetails(r.Context(), *cfg.OAuth2Config, token)
@@ -234,7 +234,7 @@ func (o *OAuth2) End(w http.ResponseWriter, r *http.Request) error {
 	storer := authboss.EnsureCanOAuth2(o.Authboss.Config.Storage.Server)
 	user, err := storer.NewFromOAuth2(r.Context(), provider, details)
 	if err != nil {
-		return errors.Wrap(err, "failed to create oauth2 user from values")
+		return fmt.Errorf("%w failed to create oauth2 user from values", err)
 	}
 
 	user.PutOAuth2Provider(provider)

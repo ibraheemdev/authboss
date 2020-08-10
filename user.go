@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"strings"
 	"time"
-
-	"github.com/friendsofgo/errors"
 )
 
 // User has functions for each piece of data it requires.
@@ -163,10 +161,10 @@ func MakeOAuth2PID(provider, uid string) string {
 func ParseOAuth2PID(pid string) (provider, uid string, err error) {
 	splits := strings.Split(pid, ";;")
 	if len(splits) != 3 {
-		return "", "", errors.Errorf("failed to parse oauth2 pid, too many segments: %s", pid)
+		return "", "", fmt.Errorf("failed to parse oauth2 pid, too many segments: %s", pid)
 	}
 	if splits[0] != "oauth2" {
-		return "", "", errors.Errorf("invalid oauth2 pid, did not start with oauth2: %s", pid)
+		return "", "", fmt.Errorf("invalid oauth2 pid, did not start with oauth2: %s", pid)
 	}
 
 	return splits[1], splits[2], nil

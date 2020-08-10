@@ -1,11 +1,11 @@
 package defaults
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"unicode"
 
-	"github.com/friendsofgo/errors"
 	"github.com/ibraheemdev/authboss"
 )
 

@@ -3,10 +3,9 @@ package register
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"sort"
-
-	"github.com/friendsofgo/errors"
 
 	"github.com/ibraheemdev/authboss"
 	"golang.org/x/crypto/bcrypt"

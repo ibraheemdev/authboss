@@ -3,6 +3,7 @@ package defaults
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"math/rand"
 	"net/smtp"
@@ -10,7 +11,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/friendsofgo/errors"
 	"github.com/ibraheemdev/authboss"
 )
 

@@ -13,7 +13,6 @@ import (
 	"net/url"
 	"path"
 
-	"github.com/friendsofgo/errors"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -45,7 +44,7 @@ func (a *Authboss) Init(modulesToLoad ...string) error {
 
 	for _, name := range modulesToLoad {
 		if err := a.loadModule(name); err != nil {
-			return errors.Errorf("module %s failed to load: %+v", name, err)
+			return fmt.Errorf("module %s failed to load: %+v", name, err)
 		}
 	}
 

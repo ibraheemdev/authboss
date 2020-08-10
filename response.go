@@ -2,9 +2,8 @@ package authboss
 
 import (
 	"context"
+	"fmt"
 	"net/http"
-
-	"github.com/friendsofgo/errors"
 )
 
 const (
@@ -76,7 +75,7 @@ func (a *Authboss) Email(ctx context.Context, email Email, ro EmailResponseOptio
 	if len(ro.HTMLTemplate) != 0 {
 		htmlBody, _, err := a.Core.MailRenderer.Render(ctx, ro.HTMLTemplate, ro.Data)
 		if err != nil {
-			return errors.Wrap(err, "failed to render e-mail html body")
+			return fmt.Errorf("failed to render e-mail html body %w", err)
 		}
 		email.HTMLBody = string(htmlBody)
 	}
@@ -84,7 +83,7 @@ func (a *Authboss) Email(ctx context.Context, email Email, ro EmailResponseOptio
 	if len(ro.TextTemplate) != 0 {
 		textBody, _, err := a.Core.MailRenderer.Render(ctx, ro.TextTemplate, ro.Data)
 		if err != nil {
-			return errors.Wrap(err, "failed to render e-mail text body")
+			return fmt.Errorf("failed to render e-mail text body %w", err)
 		}
 		email.TextBody = string(textBody)
 	}

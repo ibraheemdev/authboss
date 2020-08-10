@@ -1,13 +1,13 @@
 package register
 
 import (
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/friendsofgo/errors"
 	"github.com/ibraheemdev/authboss"
 	"github.com/ibraheemdev/authboss/mocks"
 )

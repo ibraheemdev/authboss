@@ -3,10 +3,10 @@ package oauth2
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
-	"github.com/friendsofgo/errors"
 	"golang.org/x/oauth2"
 )
 
@@ -42,7 +42,7 @@ func GoogleUserDetails(ctx context.Context, cfg oauth2.Config, token *oauth2.Tok
 	defer resp.Body.Close()
 	byt, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to read body from google oauth2 endpoint")
+		return nil, fmt.Errorf("%w failed to read body from google oauth2 endpoint", err)
 	}
 
 	var response googleMeResponse
@@ -74,12 +74,12 @@ func FacebookUserDetails(ctx context.Context, cfg oauth2.Config, token *oauth2.T
 	defer resp.Body.Close()
 	byt, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to read body from facebook oauth2 endpoint")
+		return nil, fmt.Errorf("%w failed to read body from facebook oauth2 endpoint", err)
 	}
 
 	var response facebookMeResponse
 	if err = json.Unmarshal(byt, &response); err != nil {
-		return nil, errors.Wrap(err, "failed to parse json from facebook oauth2 endpoint")
+		return nil, fmt.Errorf("%w failed to parse json from facebook oauth2 endpoint", err)
 	}
 
 	return map[string]string{

@@ -2,12 +2,11 @@ package defaults
 
 import (
 	"bytes"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
-
-	"github.com/friendsofgo/errors"
 )
 
 func TestErrorHandler(t *testing.T) {

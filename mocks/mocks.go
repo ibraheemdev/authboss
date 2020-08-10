@@ -3,13 +3,14 @@ package mocks
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
 
-	"github.com/friendsofgo/errors"
 	"github.com/ibraheemdev/authboss"
 )
 
@@ -505,13 +506,13 @@ type Renderer struct {
 // HasLoadedViews ensures the views were loaded
 func (r *Renderer) HasLoadedViews(pages ...string) error {
 	if len(r.Pages) != len(pages) {
-		return errors.Errorf("want: %d loaded views, got: %d", len(pages), len(r.Pages))
+		return fmt.Errorf("want: %d loaded views, got: %d", len(pages), len(r.Pages))
 	}
 
 	for i, want := range pages {
 		got := r.Pages[i]
 		if want != got {
-			return errors.Errorf("want: %s [%d], got: %s", want, i, got)
+			return fmt.Errorf("want: %s [%d], got: %s", want, i, got)
 		}
 	}
 
@@ -718,13 +719,13 @@ func (r *Router) HasDeletes(deletes ...string) error {
 
 func (r *Router) hasRoutes(want []string, got []string) error {
 	if len(got) != len(want) {
-		return errors.Errorf("want: %d get routes, got: %d", len(want), len(got))
+		return fmt.Errorf("want: %d get routes, got: %d", len(want), len(got))
 	}
 
 	for i, w := range want {
 		g := got[i]
 		if w != g {
-			return errors.Errorf("wanted route: %s [%d], but got: %s", w, i, g)
+			return fmt.Errorf("wanted route: %s [%d], but got: %s", w, i, g)
 		}
 	}
 

@@ -1,10 +1,9 @@
 package authboss
 
 import (
+	"errors"
 	"net/http"
 	"testing"
-
-	"github.com/friendsofgo/errors"
 )
 
 func TestEvents(t *testing.T) {
