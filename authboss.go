@@ -92,7 +92,7 @@ func VerifyPassword(user AuthableUser, password string) error {
 // in order to access the routes in protects. Requirements is a bit-set integer
 // to be able to easily combine requirements like so:
 //
-//   authboss.RequireFullAuth | authboss.Require2FA
+//   authboss.RequireFullAuth
 type MWRequirements int
 
 // MWRespondOnFailure tells authboss.Middleware how to respond to
@@ -104,9 +104,6 @@ const (
 	RequireNone MWRequirements = 0x00
 	// RequireFullAuth means half-authed users will also be rejected
 	RequireFullAuth MWRequirements = 0x01
-	// Require2FA means that users who have not authed with 2fa will
-	// be rejected.
-	Require2FA MWRequirements = 0x02
 )
 
 // Middleware response types
@@ -122,19 +119,16 @@ const (
 )
 
 // Middleware is deprecated. See Middleware2.
-func Middleware(ab *Authboss, redirectToLogin bool, forceFullAuth bool, force2fa bool) func(http.Handler) http.Handler {
-	return MountedMiddleware(ab, false, redirectToLogin, forceFullAuth, force2fa)
+func Middleware(ab *Authboss, redirectToLogin bool, forceFullAuth bool) func(http.Handler) http.Handler {
+	return MountedMiddleware(ab, false, redirectToLogin, forceFullAuth)
 }
 
 // MountedMiddleware is deprecated. See MountedMiddleware2.
-func MountedMiddleware(ab *Authboss, mountPathed, redirectToLogin, forceFullAuth, force2fa bool) func(http.Handler) http.Handler {
+func MountedMiddleware(ab *Authboss, mountPathed, redirectToLogin, forceFullAuth bool) func(http.Handler) http.Handler {
 	var reqs MWRequirements
 	failResponse := RespondNotFound
 	if forceFullAuth {
 		reqs |= RequireFullAuth
-	}
-	if force2fa {
-		reqs |= Require2FA
 	}
 	if redirectToLogin {
 		failResponse = RespondRedirect
@@ -149,7 +143,7 @@ func MountedMiddleware(ab *Authboss, mountPathed, redirectToLogin, forceFullAuth
 //
 // requirements are set by logical or'ing together requirements. eg:
 //
-//   authboss.RequireFullAuth | authboss.Require2FA
+//   authboss.RequireFullAuth
 //
 // failureResponse is how the middleware rejects the users that don't meet
 // the criteria. This should be chosen from the MWRespondOnFailure constants.
@@ -200,7 +194,7 @@ func MountedMiddleware2(ab *Authboss, mountPathed bool, reqs MWRequirements, fai
 				}
 			}
 
-			if hasBit(reqs, RequireFullAuth) && !IsFullyAuthed(r) || hasBit(reqs, Require2FA) && !IsTwoFactored(r) {
+			if hasBit(reqs, RequireFullAuth) && !IsFullyAuthed(r) {
 				fail(w, r)
 				return
 			}

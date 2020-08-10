@@ -101,38 +101,6 @@ func (r RecoverEndValues) GetToken() string { return r.Token }
 // GetPassword for recovery
 func (r RecoverEndValues) GetPassword() string { return r.NewPassword }
 
-// TwoFA for totp2fa_validate page
-type TwoFA struct {
-	HTTPFormValidator
-
-	Code         string
-	RecoveryCode string
-}
-
-// GetCode from authenticator
-func (t TwoFA) GetCode() string { return t.Code }
-
-// GetRecoveryCode for authenticator
-func (t TwoFA) GetRecoveryCode() string { return t.RecoveryCode }
-
-// SMSTwoFA for sms2fa_validate page
-type SMSTwoFA struct {
-	HTTPFormValidator
-
-	Code         string
-	RecoveryCode string
-	PhoneNumber  string
-}
-
-// GetCode from sms
-func (s SMSTwoFA) GetCode() string { return s.Code }
-
-// GetRecoveryCode from sms
-func (s SMSTwoFA) GetRecoveryCode() string { return s.RecoveryCode }
-
-// GetPhoneNumber from authenticator
-func (s SMSTwoFA) GetPhoneNumber() string { return s.PhoneNumber }
-
 // HTTPBodyReader reads forms from various pages and decodes
 // them.
 type HTTPBodyReader struct {
@@ -196,8 +164,6 @@ func NewHTTPBodyReader(readJSON, useUsernameNotEmail bool) *HTTPBodyReader {
 			"confirm":       {Rules{FieldName: FormValueConfirm, Required: true}},
 			"recover_start": {pidRules},
 			"recover_end":   {passwordRule},
-
-			"twofactor_verify_end": {Rules{FieldName: FormValueToken, Required: true}},
 		},
 		Confirms: map[string][]string{
 			"register":    {FormValuePassword, authboss.ConfirmPrefix + FormValuePassword},
@@ -275,25 +241,6 @@ func (h HTTPBodyReader) Read(page string, r *http.Request) (authboss.Validator, 
 			HTTPFormValidator: HTTPFormValidator{Values: values, Ruleset: rules, ConfirmFields: confirms},
 			Token:             values[FormValueToken],
 			NewPassword:       values[FormValuePassword],
-		}, nil
-	case "twofactor_verify_end":
-		// Reuse ConfirmValues here, it's the same values we need
-		return ConfirmValues{
-			HTTPFormValidator: HTTPFormValidator{Values: values, Ruleset: rules, ConfirmFields: confirms},
-			Token:             values[FormValueToken],
-		}, nil
-	case "totp2fa_confirm", "totp2fa_remove", "totp2fa_validate":
-		return TwoFA{
-			HTTPFormValidator: HTTPFormValidator{Values: values, Ruleset: rules, ConfirmFields: confirms},
-			Code:              values[FormValueCode],
-			RecoveryCode:      values[FormValueRecoveryCode],
-		}, nil
-	case "sms2fa_setup", "sms2fa_remove", "sms2fa_confirm", "sms2fa_validate":
-		return SMSTwoFA{
-			HTTPFormValidator: HTTPFormValidator{Values: values, Ruleset: rules, ConfirmFields: confirms},
-			Code:              values[FormValueCode],
-			PhoneNumber:       values[FormValuePhoneNumber],
-			RecoveryCode:      values[FormValueRecoveryCode],
 		}, nil
 	case "register":
 		arbitrary := make(map[string]string)

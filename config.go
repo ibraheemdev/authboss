@@ -146,30 +146,6 @@ type Config struct {
 		// access to their e-mail with the current device by clicking a link
 		// and confirming a token stored in the session.
 		TwoFactorEmailAuthRequired bool
-
-		// TOTP2FAIssuer is the issuer that appears in the url when scanning
-		// a qr code for google authenticator.
-		TOTP2FAIssuer string
-
-		// DEPRECATED: See ResponseOnUnauthed
-		// RoutesRedirectOnUnauthed controls whether or not a user is redirected
-		// or given a 404 when they are unauthenticated and attempting to access
-		// a route that's login-protected inside Authboss itself.
-		// The otp/twofactor modules all use authboss.Middleware to protect
-		// their routes and this is the redirectToLogin parameter in that
-		// middleware that they pass through.
-		RoutesRedirectOnUnauthed bool
-
-		// ResponseOnUnauthed controls how a user is responded to when
-		// attempting to access a route that's login-protected inside Authboss
-		// itself. The otp/twofactor modules all use authboss.Middleware2 to
-		// protect their routes and this is the failResponse parameter in that
-		// middleware that they pass through.
-		//
-		// This deprecates RoutesRedirectOnUnauthed. If RoutesRedirectOnUnauthed
-		// is true, the value of this will be set to RespondRedirect until
-		// authboss v3.
-		ResponseOnUnauthed MWRespondOnFailure
 	}
 
 	Mail struct {
