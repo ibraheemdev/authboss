@@ -8,7 +8,7 @@ Authboss is a flexible authentication solution for Go Web Applications. It makes
 to plug in authentication to an application and get a lot of functionality with little
 effort.
 
-It's composed of 9 modules:
+It is composed of 9 modules:
 
 * [Database Authenticatable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/authenticatable?tab=doc): hashes and stores a password in the database to validate the authenticity of a user while signing in.
 * [Logoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/logoutable?tab=doc): implements user logout functionality
