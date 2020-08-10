@@ -18,7 +18,7 @@ It is composed of 9 modules:
 * [Registerable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/registerable?tab=doc): handles signing up users through a registration process, also allowing them to edit and destroy their account.
 * [Rememberable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/rememberable?tab=doc): manages generating and clearing a token for remembering the user from a saved cookie.
 * [Timeoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/timeoutable?tab=doc): expires sessions that have not been active in a specified period of time.
-* [Lockable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/lockable?tab=doc): locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
+* [Lockable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/lockable?tab=doc): locks an account after a specified number of failed sign-in attempts.
 
 
 # Why use Authboss?
