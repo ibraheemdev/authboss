@@ -74,7 +74,7 @@ Authboss is a standard go module. You can install it by running:
 $ go get github.com/ibraheemdev/authboss/...
 ```
 
-You can start by generating a user model:
+You can start by generating a user model. Note: This command **will overwrite the file** if it already exists:
 
 ```bash
 $ authboss generate:user -d ./user.go
