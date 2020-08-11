@@ -49,32 +49,33 @@ type User struct {
   RememberTokens []string
 }
 
-// DB : The in memory database instance
-var DB *InMemDB
-
 // Authboss interface implementation methods ...
 ```
+
 You can now edit the methods to suit your database.
 
 *Want to help out? Create a pull request including a user model for a popular ORM!*
 
-You can generate the default templates using the build in authboss generator:
+Optionally, to view all the configuration options, you can generate the default config:
 
 ```bash
-authboss generate:templates -d ./destination_path
+authboss generate:config -d ./destination_path
 ```
 
-Here's a bit of starter code:
+Now, here is some starter code to setup authboss:
 
 ```go
+// If you generated the config file, you can call:
+// SetupAuthboss()
+
+// Otherwise, here is a minimal config to help get 
+// you up and running:
+
 ab := authboss.New()
 
-ab.Config.Storage.Server = myDatabaseImplementation
-ab.Config.Storage.SessionState = mySessionImplementation
-ab.Config.Storage.CookieState = myCookieImplementation
-
-ab.Config.Paths.Mount = "/authboss"
-ab.Config.Paths.RootURL = "https://www.example.com/"
+ab.Config.Storage.Server = yourDatabaseImplementation
+ab.Config.Storage.SessionState = yourSessionImplementation
+ab.Config.Storage.CookieState = yourCookieImplementation
 
 // This is using the renderer from: github.com/volatiletech/authboss-renderer
 ab.Config.Core.ViewRenderer = abrenderer.NewHTML("/auth", "ab_views")
@@ -82,7 +83,7 @@ ab.Config.Core.MailRenderer = abrenderer.NewEmail("/auth", "ab_views")
 
 // This instantiates and uses every default implementation
 // in the Config.Core area that exist in the defaults package.
- defaults.SetCore(&ab.Config, false, false)
+defaults.SetCore(&ab.Config, false, false)
 
 if err := ab.Init(); err != nil {
     panic(err)
@@ -90,9 +91,13 @@ if err := ab.Init(); err != nil {
 
 // Mount the router to a path (this should be the same as the Mount path above)
 // mux in this example is a chi router
-mux.Mount("/authboss", http.StripPrefix("/authboss", ab.Config.Core.Router))
+mux.Mount("/auth", http.StripPrefix("/auth", ab.Config.Core.Router))
 ```
 
-For a more in-depth look, refer to the the authboss sample to see what a full implementation looks like. This will probably help you more than any of this documentation.
+To generate the default templates, you can run:
 
-[https://github.com/volatiletech/authboss-sample](https://github.com/volatiletech/authboss-sample)
+```bash
+authboss generate:templates -d ./destination_path
+```
+
+Our main priority right now is your experience. More documentation and generators will be added soon!

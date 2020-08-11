@@ -28,7 +28,7 @@ type Config struct {
 		// to confirm their account, this is where they should be redirected to.
 		ConfirmNotOK string
 
-		// LockNotOK is a path to go to when the user fails
+		// LockNotOK is a path to go to when the user gets locked out
 		LockNotOK string
 
 		// LogoutOK is the redirect path after a log out.
@@ -104,10 +104,6 @@ type Config struct {
 		// MailNoGoroutine is used to prevent the mailer from being launched
 		// in a goroutine by the Authboss modules.
 		//
-		// This behavior will become the default in Authboss v3 and each
-		// Mailer implementation will be required to use goroutines if it sees
-		// fit.
-		//
 		// It's important that this is the case if you are using contexts
 		// as the http request context will be cancelled by the Go http server
 		// and it may interrupt your use of the context that the Authboss module
@@ -118,7 +114,8 @@ type Config struct {
 		// to be rendered when post fails in a normal way
 		// (for example validation errors), they will be passed back in the
 		// data of the response under the key DataPreserve which
-		// will be a map[string]string.
+		// will be a map[string]string. This way the user does not have to
+		// retype these whitelisted fields.
 		//
 		// All fields that are to be preserved must be able to be returned by
 		// the ArbitraryValuer.GetValues()
@@ -249,4 +246,5 @@ func (c *Config) Defaults() {
 	c.Modules.MailRouteMethod = http.MethodGet
 	c.Modules.RecoverLoginAfterRecovery = false
 	c.Modules.RecoverTokenDuration = 24 * time.Hour
+	c.Modules.TwoFactorEmailAuthRequired = true
 }
