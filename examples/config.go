@@ -27,14 +27,15 @@ func SetupAuthboss() {
 	// config.Core.BodyReader = NewHTTPBodyReader(readJSON, useUsername)
 	// config.Core.Mailer = NewLogMailer(os.Stdout)
 	// config.Core.Logger = NewLogger(os.Stdout)
+        // config.Core.MailRenderer defaults to the view renderer
 
 	// These typically are abstracting the HTTP stack.
-	// Out of all of these you'll probably be mostly okay with the
-	// defaults but there are two big EXCEPTIONS to this rule and that's
-	// the ViewRenderer and the MailRenderer.
+	// Out of all of the only one that NEEDS to be explicitly defined
+        // is confirmed config.Core.ViewRenderer
+
 	// For more information please see the documentation:
 	// https://ibraheemdev.github.io/authboss/#/rendering
-	// Good defaults for these renderers are coming soon!
+	// A default view renderer is coming soon!
 
 	// ************** Paths Config **************
 
