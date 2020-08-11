@@ -21,12 +21,12 @@ import (
 
 const (
 	// PageConfirm is only really used for the BodyReader
-	PageConfirm = "confirm"
+	PageConfirm = "mailer/confirm.html.tpl"
 
 	// EmailConfirmHTML is the name of the html template for e-mails
-	EmailConfirmHTML = "confirm_html"
+	EmailConfirmHTML = "mailer/confirm.html.tpl"
 	// EmailConfirmTxt is the name of the text template for e-mails
-	EmailConfirmTxt = "confirm_txt"
+	EmailConfirmTxt = "mailer/confirm.text.tpl"
 
 	// FormValueConfirm is the name of the form value for
 	FormValueConfirm = "cnf"

@@ -13,7 +13,7 @@ import (
 
 const (
 	// PageLogin is for identifying the login page for parsing & validation
-	PageLogin = "login"
+	PageLogin = "login.html.tpl"
 )
 
 func init() {

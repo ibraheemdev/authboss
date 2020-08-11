@@ -14,7 +14,7 @@ import (
 
 // Pages
 const (
-	PageRegister = "register"
+	PageRegister = "register.html.tpl"
 )
 
 func init() {

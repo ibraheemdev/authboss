@@ -27,12 +27,12 @@ const (
 
 	FormValueToken = "token"
 
-	EmailRecoverHTML = "recover_html"
-	EmailRecoverTxt  = "recover_txt"
+	EmailRecoverHTML = "mailer/recover.html.tpl"
+	EmailRecoverTxt  = "mailer/recover.text.tpl"
 
-	PageRecoverStart  = "recover_start"
-	PageRecoverMiddle = "recover_middle"
-	PageRecoverEnd    = "recover_end"
+	PageRecoverStart  = "recover_start.html.tpl"
+	PageRecoverMiddle = "recover_middle.html.tpl"
+	PageRecoverEnd    = "recover_end.html.tpl"
 
 	recoverInitiateSuccessFlash = "An email has been sent to you with further instructions on how to reset your password."
 

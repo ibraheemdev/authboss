@@ -56,7 +56,7 @@ func (h *HTMLRenderer) Load(templates ...string) error {
 
 	for _, tpl := range templates {
 		fileName := filepath.Base(tpl)
-		filePath := fmt.Sprintf("%s/%s", h.templatesPath, fileName)
+		filePath := fmt.Sprintf("%s/%s", h.templatesPath, tpl)
 		template, err := template.New(fileName).Funcs(funcMap).ParseFiles(filePath)
 		if err != nil {
 			return fmt.Errorf("Could not parse template: %s", fileName)
