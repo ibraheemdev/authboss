@@ -11,15 +11,15 @@ effort.
 
 It is composed of 9 modules:
 
-* [Database Authenticatable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/authenticatable?tab=doc): hashes and stores a password in the database to validate the authenticity of a user while signing in.
-* [Logoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/logoutable?tab=doc): implements user logout functionality
-* [OAuthable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/oauthable?tab=doc): adds OAuth support.
-* [Confirmable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/confirmable?tab=doc): sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
-* [Recoverable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/recoverable?tab=doc): resets the user password and sends reset instructions.
-* [Registerable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/registerable?tab=doc): handles signing up users through a registration process, also allowing them to edit and destroy their account.
-* [Rememberable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/rememberable?tab=doc): manages generating and clearing a token for remembering the user from a saved cookie.
-* [Timeoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/timeoutable?tab=doc): expires sessions that have not been active in a specified period of time.
-* [Lockable](https://pkg.go.dev/github.com/ibraheemdev/authboss@v0.0.0-20200810134708-7f71c73afdd9/pkg/lockable?tab=doc): locks an account after a specified number of failed sign-in attempts.
+* [Database Authenticatable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authenticatable?tab=doc): hashes and stores a password in the database to validate the authenticity of a user while signing in.
+* [Logoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/logoutable?tab=doc): implements user logout functionality
+* [OAuthable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/oauthable?tab=doc): adds OAuth support.
+* [Confirmable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/confirmable?tab=doc): sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
+* [Recoverable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/recoverable?tab=doc): resets the user password and sends reset instructions.
+* [Registerable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/registerable?tab=doc): handles signing up users through a registration process, also allowing them to edit and destroy their account.
+* [Rememberable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/rememberable?tab=doc): manages generating and clearing a token for remembering the user from a saved cookie.
+* [Timeoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/timeoutable?tab=doc): expires sessions that have not been active in a specified period of time.
+* [Lockable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/lockable?tab=doc): locks an account after a specified number of failed sign-in attempts.
 
 
 ### Why use Authboss?
