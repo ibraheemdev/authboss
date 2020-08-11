@@ -71,12 +71,18 @@ ab := authboss.New()
 // The in memory database from the user model
 ab.Config.Storage.Server = DB
 
-ab.Config.Storage.SessionState = yourSessionImplementation
-ab.Config.Storage.CookieState = yourCookieImplementation
+// ab.Config.Storage.SessionState = yourSessionImplementation
+// ab.Config.Storage.CookieState = yourCookieImplementation
 
 // This instantiates and uses every default implementation
 // in the Config.Core area that exist in the defaults package.
-defaults.SetCore(&ab.Config, false, false, "/auth", "./web/templates/authboss")
+defaults.SetCore(&ab.Config, false, false, "/auth", "./templates/authboss")
+```
+
+To generate the default templates, you can run:
+
+```bash
+authboss generate:templates ./templates
 ```
 
 Now you can call the init function, and mount the authboss routes with your router:
@@ -87,14 +93,8 @@ if err := ab.Init(); err != nil {
 }
 
 // Mount the router to a path (this should be the same as the Mount path above)
-// mux in this example is a chi router
+mux := chi.NewRouter()
 mux.Mount("/auth", http.StripPrefix("/auth", ab.Config.Core.Router))
-```
-
-To generate the default templates, you can run:
-
-```bash
-authboss generate:templates ./templates
 ```
 
 Our main priority right now is your experience. More documentation and generators will be added soon!
