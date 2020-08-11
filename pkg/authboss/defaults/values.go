@@ -9,6 +9,10 @@ import (
 	"regexp"
 
 	"github.com/ibraheemdev/authboss/pkg/authboss"
+	"github.com/ibraheemdev/authboss/pkg/authenticatable"
+	"github.com/ibraheemdev/authboss/pkg/confirmable"
+	"github.com/ibraheemdev/authboss/pkg/recoverable"
+	"github.com/ibraheemdev/authboss/pkg/registerable"
 )
 
 // FormValue types
@@ -159,18 +163,18 @@ func NewHTTPBodyReader(readJSON, useUsernameNotEmail bool) *HTTPBodyReader {
 		UseUsername: useUsernameNotEmail,
 		ReadJSON:    readJSON,
 		Rulesets: map[string][]Rules{
-			"login":         {pidRules},
-			"register":      {pidRules, passwordRule},
-			"confirm":       {Rules{FieldName: FormValueConfirm, Required: true}},
-			"recover_start": {pidRules},
-			"recover_end":   {passwordRule},
+			authenticatable.PageLogin:    {pidRules},
+			registerable.PageRegister:    {pidRules, passwordRule},
+			confirmable.PageConfirm:      {Rules{FieldName: FormValueConfirm, Required: true}},
+			recoverable.PageRecoverStart: {pidRules},
+			recoverable.PageRecoverEnd:   {passwordRule},
 		},
 		Confirms: map[string][]string{
-			"register":    {FormValuePassword, authboss.ConfirmPrefix + FormValuePassword},
-			"recover_end": {FormValuePassword, authboss.ConfirmPrefix + FormValuePassword},
+			registerable.PageRegister:  {FormValuePassword, authboss.ConfirmPrefix + FormValuePassword},
+			recoverable.PageRecoverEnd: {FormValuePassword, authboss.ConfirmPrefix + FormValuePassword},
 		},
 		Whitelist: map[string][]string{
-			"register": {FormValueEmail, FormValuePassword},
+			registerable.PageRegister: {FormValueEmail, FormValuePassword},
 		},
 	}
 }
@@ -201,12 +205,12 @@ func (h HTTPBodyReader) Read(page string, r *http.Request) (authboss.Validator, 
 	whitelist := h.Whitelist[page]
 
 	switch page {
-	case "confirm":
+	case confirmable.PageConfirm:
 		return ConfirmValues{
 			HTTPFormValidator: HTTPFormValidator{Values: values, Ruleset: rules},
 			Token:             values[FormValueConfirm],
 		}, nil
-	case "login":
+	case authenticatable.PageLogin:
 		var pid string
 		if h.UseUsername {
 			pid = values[FormValueUsername]
@@ -219,7 +223,7 @@ func (h HTTPBodyReader) Read(page string, r *http.Request) (authboss.Validator, 
 			PID:               pid,
 			Password:          values[FormValuePassword],
 		}, nil
-	case "recover_start":
+	case recoverable.PageRecoverStart:
 		var pid string
 		if h.UseUsername {
 			pid = values[FormValueUsername]
@@ -231,18 +235,18 @@ func (h HTTPBodyReader) Read(page string, r *http.Request) (authboss.Validator, 
 			HTTPFormValidator: HTTPFormValidator{Values: values, Ruleset: rules, ConfirmFields: confirms},
 			PID:               pid,
 		}, nil
-	case "recover_middle":
+	case recoverable.PageRecoverMiddle:
 		return RecoverMiddleValues{
 			HTTPFormValidator: HTTPFormValidator{Values: values, Ruleset: rules, ConfirmFields: confirms},
 			Token:             values[FormValueToken],
 		}, nil
-	case "recover_end":
+	case recoverable.PageRecoverEnd:
 		return RecoverEndValues{
 			HTTPFormValidator: HTTPFormValidator{Values: values, Ruleset: rules, ConfirmFields: confirms},
 			Token:             values[FormValueToken],
 			NewPassword:       values[FormValuePassword],
 		}, nil
-	case "register":
+	case registerable.PageRegister:
 		arbitrary := make(map[string]string)
 
 		for k, v := range values {
