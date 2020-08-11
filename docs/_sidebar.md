@@ -5,7 +5,7 @@
 
 * Getting Started
 
-  * [Quick Start](#getting-started)
+  * [Quick Start](#quick-start)
   * [App Requirements](#app-requirements)
     * [CSRF Protection](#csrf-protection)
     * [Request Throttling](#request-throttling)

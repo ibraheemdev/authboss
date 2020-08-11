@@ -38,51 +38,7 @@ Here are a few bullet point reasons you might like to try it out:
 * Saves you mistakes (at least using Authboss, people can bug fix as a collective and all benefit)
 * Should integrate with or without any web framework
 
-# Readme Table of Contents
-<!-- TOC -->
-
-- [Authboss](#authboss)
-- [Why use Authboss?](#why-use-authboss)
-- [Readme Table of Contents](#readme-table-of-contents)
-- [Getting Started](#getting-started)
-    - [App Requirements](#app-requirements)
-        - [CSRF Protection](#csrf-protection)
-        - [Request Throttling](#request-throttling)
-    - [Integration Requirements](#integration-requirements)
-        - [Middleware](#middleware)
-        - [Configuration](#configuration)
-        - [Storage and Core implementations](#storage-and-core-implementations)
-        - [ServerStorer implementation](#serverstorer-implementation)
-        - [User implementation](#user-implementation)
-        - [Values implementation](#values-implementation)
-    - [Config](#config)
-        - [Paths](#paths)
-        - [Modules](#modules)
-        - [Mail](#mail)
-        - [Storage](#storage)
-        - [Core](#core)
-- [Available Modules](#available-modules)
-- [Middlewares](#middlewares)
-- [Use Cases](#use-cases)
-    - [Get Current User](#get-current-user)
-    - [Reset Password](#reset-password)
-    - [User Auth via Password](#user-auth-via-password)
-    - [User Auth via OAuth1](#user-auth-via-oauth1)
-    - [User Auth via OAuth2](#user-auth-via-oauth2)
-    - [User Registration](#user-registration)
-    - [Confirming Registrations](#confirming-registrations)
-    - [Password Recovery](#password-recovery)
-    - [Remember Me](#remember-me)
-    - [Locking Users](#locking-users)
-    - [Expiring User Sessions](#expiring-user-sessions)
-    - [Rendering Views](#rendering-views)
-        - [HTML Views](#html-views)
-        - [JSON Views](#json-views)
-        - [Data](#data)
-
-<!-- /TOC -->
-
-# Getting Started
+# Quick Start
 
 Authboss is a standard go module. You can install it by running:
 
