@@ -1,6 +1,6 @@
 * Introduction
 
-* [About Authboss](readme.md)
+* [About Authboss](/)
 
 * Getting Started
 
