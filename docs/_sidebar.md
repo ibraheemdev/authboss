@@ -1,50 +1,22 @@
-* Authboss
+* Introduction
 
-* [About Authboss](#authboss)
-* [Why use Authboss?](#why-use-authboss)
+* [About Authboss](readme.md)
 
 * Getting Started
 
-  * [Quick Start](#quick-start)
-  * [App Requirements](#app-requirements)
-    * [CSRF Protection](#csrf-protection)
-    * [Request Throttling](#request-throttling)
-  * [Integration Requirements](#integration-requirements)
-    * [Middleware](#middleware)
-    * [Configuration](#configuration)
-    * [Storage and Core implementations](#storage-and-core-implementations)
-    * [ServerStorer implementation](#serverstorer-implementation)
-    * [User implementation](#user-implementation)
-    * [Values implementation](#values-implementation)
+  * [Quick Start](quick-start.md)
+  * [App Requirements](app-requirements.md)
+  * [Integration](integration.md)
+  * [Middlewares](middlewares.md)
 
 * Configuration
 
-  * [Introduction](#config)
-  * [Paths](#paths)
-  * [Modules](#modules)
-  * [Mail](#mail)
-  * [Storage](#storage)
-  * [Core](#core)
+  * [Configuration Options](config.md)
 
-* [Middlewares](#middlewares)
+* Functionality
 
-* Use Cases
+  * [Common Use Cases](functionality.md)
 
-  * [Get Current User](#get-current-user)
-  * [Reset Password](#reset-password)
-  * [User Auth via Password](#user-auth-via-password)
-  * [User Auth via OAuth1](#user-auth-via-oauth1)
-  * [User Auth via OAuth2](#user-auth-via-oauth2)
-  * [User Registration](#user-registration)
-  * [Confirming Registrations](#confirming-registrations)
-  * [Password Recovery](#password-recovery)
-  * [Remember Me](#remember-me)
-  * [Locking Users](#locking-users)
-  * [Expiring User Sessions](#expiring-user-sessions)
+* Rendering
 
-* Rendering Views
-
-  * [Introduction](#rendering-views)
-  * [HTML Views](#html-views)
-  * [JSON Views](#json-views)
-  * [Data](#data)
+  * [Rendering Views](rendering.md)
