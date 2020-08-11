@@ -8,7 +8,7 @@ go get github.com/ibraheemdev/authboss/...
 You can start by generating a user model. Note: This command **will overwrite the file** if it already exists:
 
 ```bash
-$ authboss generate:user -d ./user.go
+$ authboss generate:user ./user.go
 ```
 
 The generated file will contain a user model implementing the `Authable`, `Recoverable`, `Confirmable`, `Lockable`, `OAuthable`, and `Rememberable` modules. It is a generic implementation that uses an in memory database: 
@@ -59,7 +59,7 @@ You can now edit the methods to suit your database.
 Optionally, to view all the configuration options, you can generate the default config:
 
 ```bash
-authboss generate:config -d ./destination_path
+authboss generate:config ./config.go
 ```
 
 Now, here is some starter code to setup authboss:
@@ -97,7 +97,7 @@ mux.Mount("/auth", http.StripPrefix("/auth", ab.Config.Core.Router))
 To generate the default templates, you can run:
 
 ```bash
-authboss generate:templates -d ./destination_path
+authboss generate:templates ./templates
 ```
 
 Our main priority right now is your experience. More documentation and generators will be added soon!

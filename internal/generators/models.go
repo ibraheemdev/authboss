@@ -11,13 +11,13 @@ import (
 
 // generateModelsCmd represents the generateModels command
 var generateModelsCmd = &cobra.Command{
-	Use:   "generate:user",
+	Use:   "generate:user [destination_path]",
 	Short: "Generates a generic user model",
 	Long: `Generates a generic user model implementing Authable, 
 	Recoverable, Confirmable, Lockable, and the OAuthable module, 
 	into the specified folder`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := generateModels(cmd)
+		err := generateModels(cmd, args)
 		if err != nil {
 			fmt.Printf("Error: %s", err.Error())
 			os.Exit(-1)
@@ -25,8 +25,8 @@ var generateModelsCmd = &cobra.Command{
 	},
 }
 
-func generateModels(cmd *cobra.Command) error {
-	dst, _ := cmd.Flags().GetString("destination")
+func generateModels(cmd *cobra.Command, args []string) error {
+	dst := args[0]
 
 	if len(dst) == 0 {
 		return fmt.Errorf("You must specify a destination path")
@@ -44,5 +44,4 @@ func generateModels(cmd *cobra.Command) error {
 
 func init() {
 	rootCmd.AddCommand(generateModelsCmd)
-	generateModelsCmd.Flags().StringP("destination", "d", "", "the destination path of the generated user model")
 }

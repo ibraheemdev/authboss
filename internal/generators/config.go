@@ -11,13 +11,13 @@ import (
 
 // generateConfigCmd represents the generateConfig command
 var generateConfigCmd = &cobra.Command{
-	Use:   "generate:config",
+	Use:   "generate:config [destination_path]",
 	Short: "Generates the default config",
 	Long: `Generates the default authboss config. 
 	This is not neccessary, but useful if you want 
 	to see all the available options`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := generateModels(cmd)
+		err := generateConfig(cmd, args)
 		if err != nil {
 			fmt.Printf("Error: %s", err.Error())
 			os.Exit(-1)
@@ -25,8 +25,8 @@ var generateConfigCmd = &cobra.Command{
 	},
 }
 
-func generateConfig(cmd *cobra.Command) error {
-	dst, _ := cmd.Flags().GetString("destination")
+func generateConfig(cmd *cobra.Command, args []string) error {
+	dst := args[0]
 
 	if len(dst) == 0 {
 		return fmt.Errorf("You must specify a destination path")
@@ -44,5 +44,4 @@ func generateConfig(cmd *cobra.Command) error {
 
 func init() {
 	rootCmd.AddCommand(generateConfigCmd)
-	generateModelsCmd.Flags().StringP("destination", "d", "", "the destination path of the generated config file")
 }

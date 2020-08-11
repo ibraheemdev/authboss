@@ -1,10 +1,15 @@
 # Config
 
 The config struct is an important part of Authboss. It's the key to making Authboss do what you
-want with the implementations you want. Please look at it's code definition as you read the
-documentation below, it will make much more sense.
+want with the implementations you want. Please look at it's code definition below:
 
 [Config Struct Documentation](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Config)
+
+Optionally, to view all the configuration options, you can generate the default config:
+
+```bash
+authboss generate:config ./config.go
+```
 
 ### Paths
 
