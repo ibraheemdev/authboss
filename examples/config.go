@@ -48,7 +48,7 @@ func SetupAuthboss() {
 
 	// ViewRenderer loads the templates for the application.
 	// You can also use defaults.JSONRenderer for api usage
-	c.Core.ViewRenderer = defaults.NewHTMLRenderer("/auth")
+	c.Core.ViewRenderer = defaults.NewHTMLRenderer("/auth", "./web/templates/authboss/")
 
 	// MailRenderer loads the templates for mail. If this is nil, it will
 	// fall back to using the Renderer created from the ViewLoader instead.

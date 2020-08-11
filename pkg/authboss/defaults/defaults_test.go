@@ -10,7 +10,7 @@ func TestSetCore(t *testing.T) {
 	t.Parallel()
 
 	config := &authboss.Config{}
-	SetCore(config, false, false, "/auth")
+	SetCore(config, false, false, "/auth", "/templates")
 
 	if config.Core.Logger == nil {
 		t.Error("logger should be set")

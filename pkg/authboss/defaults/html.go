@@ -16,14 +16,18 @@ type HTMLRenderer struct {
 	// url mount path
 	mountPath string
 
+	// path to templates folder
+	templatesPath string
+
 	templates map[string]*template.Template
 }
 
 // NewHTMLRenderer :
-func NewHTMLRenderer(mountPath string) *HTMLRenderer {
+func NewHTMLRenderer(mountPath, templatesPath string) *HTMLRenderer {
 	return &HTMLRenderer{
-		mountPath: mountPath,
-		templates: make(map[string]*template.Template),
+		mountPath:     mountPath,
+		templates:     make(map[string]*template.Template),
+		templatesPath: templatesPath,
 	}
 }
 
@@ -52,7 +56,8 @@ func (h *HTMLRenderer) Load(templates ...string) error {
 
 	for _, tpl := range templates {
 		fileName := filepath.Base(tpl)
-		template, err := template.New(fileName).Funcs(funcMap).ParseFiles(tpl)
+		filePath := fmt.Sprintf("%s/%s", h.templatesPath, fileName)
+		template, err := template.New(fileName).Funcs(funcMap).ParseFiles(filePath)
 		if err != nil {
 			return fmt.Errorf("Could not parse template: %s", fileName)
 		}

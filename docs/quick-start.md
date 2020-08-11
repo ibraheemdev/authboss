@@ -76,7 +76,7 @@ ab.Config.Storage.CookieState = yourCookieImplementation
 
 // This instantiates and uses every default implementation
 // in the Config.Core area that exist in the defaults package.
-defaults.SetCore(&ab.Config, false, false, "/auth")
+defaults.SetCore(&ab.Config, false, false, "/auth", "./web/templates/authboss")
 ```
 
 Now you can call the init function, and mount the authboss routes with your router:

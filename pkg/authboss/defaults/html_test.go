@@ -8,8 +8,8 @@ import (
 
 func TestRenderSuccess(t *testing.T) {
 	t.Parallel()
-	r := NewHTMLRenderer("/auth")
-	err := r.Load("../../../web/templates/authboss/login.html.tpl")
+	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss/")
+	err := r.Load("login.html.tpl")
 	if err != nil {
 		t.Error(err)
 	}
@@ -34,7 +34,7 @@ func TestRenderSuccess(t *testing.T) {
 
 func TestRenderFail(t *testing.T) {
 	t.Parallel()
-	r := NewHTMLRenderer("/")
+	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss/")
 
 	_, _, err := r.Render(context.Background(), "doesntexist....html.tpl", nil)
 	if !strings.Contains(err.Error(), "the template doesntexist....html.tpl does not exist") {
@@ -44,7 +44,7 @@ func TestRenderFail(t *testing.T) {
 
 func TestLoadFail(t *testing.T) {
 	t.Parallel()
-	r := NewHTMLRenderer("/")
+	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss/")
 	err := r.Load("./doesntexist....html.tpl")
 	if err == nil {
 		t.Error("Expected error due to nonexistent file")
