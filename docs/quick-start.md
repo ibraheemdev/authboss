@@ -54,7 +54,7 @@ type User struct {
 
 You can now edit the methods to suit your database.
 
-*Want to help out? Create a pull request including a user model for a popular ORM!*
+> Want to help out? Create a pull request including a user model for a popular ORM!
 
 Optionally, to view all the configuration options, you can generate the default config:
 
