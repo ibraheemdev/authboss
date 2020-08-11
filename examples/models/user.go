@@ -5,6 +5,17 @@ import (
 	"time"
 
 	"github.com/ibraheemdev/authboss/pkg/authboss"
+	// Import all the authboss modules you want to use
+	// with a blank import. This will register the routes
+	// and handlers automatically
+	_ "github.com/ibraheemdev/authboss/pkg/authenticatable"
+	_ "github.com/ibraheemdev/authboss/pkg/confirmable"
+	_ "github.com/ibraheemdev/authboss/pkg/lockable"
+	_ "github.com/ibraheemdev/authboss/pkg/logoutable"
+	_ "github.com/ibraheemdev/authboss/pkg/oauthable"
+	_ "github.com/ibraheemdev/authboss/pkg/recoverable"
+	_ "github.com/ibraheemdev/authboss/pkg/registerable"
+	_ "github.com/ibraheemdev/authboss/pkg/rememberable"
 )
 
 // InMemDB : A generic in memory database
