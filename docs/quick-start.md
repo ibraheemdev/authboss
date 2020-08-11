@@ -56,21 +56,16 @@ You can now edit the methods to suit your database.
 
 > Want to help out? Create a pull request including a user model for a popular ORM!
 
-Optionally, to view all the configuration options, you can generate the default config:
+Optionally, to view all the configuration options, you can generate the default config file:
 
 ```bash
 authboss generate:config ./config.go
 ```
 
-Now, here is some starter code to setup authboss:
+If you don't want to generate the entire config file, you can use the 
+built in authboss defaults:
 
 ```go
-// If you generated the config file, you can call:
-// SetupAuthboss()
-
-// Otherwise, here is a minimal config to help get 
-// you up and running:
-
 ab := authboss.New()
 
 ab.Config.Storage.Server = yourDatabaseImplementation
@@ -84,7 +79,11 @@ ab.Config.Core.MailRenderer = abrenderer.NewEmail("/auth", "ab_views")
 // This instantiates and uses every default implementation
 // in the Config.Core area that exist in the defaults package.
 defaults.SetCore(&ab.Config, false, false)
+```
 
+Now you can call the init function, and mount the authboss routes with your router:
+
+```
 if err := ab.Init(); err != nil {
     panic(err)
 }
