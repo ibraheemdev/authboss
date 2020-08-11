@@ -37,3 +37,9 @@ Here are a few bullet point reasons you might like to try it out:
 * Saves you time (Authboss integration time should be less than re-implementation time)
 * Saves you mistakes (at least using Authboss, people can bug fix as a collective and all benefit)
 * Should integrate with or without any web framework
+
+# Getting Started
+
+You can view the getting started guide on [the documentation site](https://ibraheemdev.github.io/authboss/#/).
+
+For detailed documentation of the full public api, visit [the gopkg directory](https://pkg.go.dev/github.com/ibraheemdev/authboss).
