@@ -54,7 +54,7 @@ func CopyDir(src string, dst string) (err error) {
 		return fmt.Errorf("destination already exists")
 	}
 
-	err = os.MkdirAll(dst, si.Mode())
+	err = os.MkdirAll(dst, 0777)
 	if err != nil {
 		return
 	}
@@ -121,11 +121,7 @@ func CopyFile(src, dst string) (err error) {
 		return
 	}
 
-	si, err := os.Stat(src)
-	if err != nil {
-		return
-	}
-	err = os.Chmod(dst, si.Mode())
+	err = os.Chmod(dst, 0777)
 	if err != nil {
 		return
 	}
