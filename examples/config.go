@@ -2,11 +2,13 @@ package examples
 
 import (
 	"net/http"
+	"os"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/ibraheemdev/authboss/pkg/authboss"
+	"github.com/ibraheemdev/authboss/pkg/authboss/defaults"
 )
 
 // SetupAuthboss :
@@ -16,26 +18,69 @@ func SetupAuthboss() {
 
 	// ************** Core Config **************
 
-	// These Configuration options are set by default in the SetCore method:
+	// Router is the entity that controls all routing to authboss routes
+	// modules will register their routes with it.
+	c.Core.Router = defaults.NewRouter()
 
-        defaults.SetCore(&c, false, false)
+	// ErrorHandler wraps http requests with centralized error handling.
+	c.Core.ErrorHandler = defaults.NewErrorHandler(defaults.NewLogger(os.Stdout))
 
-	// config.Core.Router = NewRouter()
-	// config.Core.ErrorHandler = NewErrorHandler(logger)
-	// config.Core.Responder = NewResponder(config.Core.ViewRenderer)
-	// config.Core.Redirector = NewRedirector(config.Core.ViewRenderer, authboss.FormValueRedirect)
-	// config.Core.BodyReader = NewHTTPBodyReader(readJSON, useUsername)
-	// config.Core.Mailer = NewLogMailer(os.Stdout)
-	// config.Core.Logger = NewLogger(os.Stdout)
-        // config.Core.MailRenderer defaults to the view renderer
+	// Responder takes a generic response from a controller and prepares
+	// the response, uses a renderer to create the body, and replies to the
+	// http request.
+	c.Core.Responder = defaults.NewResponder(c.Core.ViewRenderer)
 
-	// These typically are abstracting the HTTP stack.
-	// Out of all of the only one that NEEDS to be explicitly defined
-        // is confirmed config.Core.ViewRenderer
+	// Redirector can redirect a response, similar to Responder but
+	// responsible only for redirection.
+	c.Core.Redirector = defaults.NewRedirector(c.Core.ViewRenderer, authboss.FormValueRedirect)
 
-	// For more information please see the documentation:
-	// https://ibraheemdev.github.io/authboss/#/rendering
-	// A default view renderer is coming soon!
+	// BodyReader reads validatable data from the body of a request to
+	// be able to get data from the user's client.
+	c.Core.BodyReader = defaults.NewHTTPBodyReader(false, false)
+
+	// Mailer is the mailer being used to send e-mails out via smtp
+	c.Core.Mailer = defaults.NewLogMailer(os.Stdout)
+
+	// Logger implies just a few log levels for use, can optionally
+	// also implement the ContextLogger to be able to upgrade to a
+	// request specific logger.
+	c.Core.Logger = defaults.NewLogger(os.Stdout)
+
+	// ViewRenderer loads the templates for the application.
+	// You can also use defaults.JSONRenderer for api usage
+	c.Core.ViewRenderer = defaults.NewHTMLRenderer("/auth")
+
+	// MailRenderer loads the templates for mail. If this is nil, it will
+	// fall back to using the Renderer created from the ViewLoader instead.
+	c.Core.MailRenderer = c.Core.ViewRenderer
+
+	// ************** Storage Config **************
+
+	// Storer is the interface through which Authboss accesses the web apps
+	// database for user operations.
+	//
+	// The in memory database from the user model
+	// c.Storage.Server = DB
+
+	// SessionState must be defined to provide an interface capable of
+	// storing session-only values for the given response, and reading them
+	// from the request.
+	//
+	// Must implement the authboss ClientStateReadWriter interface
+	// c.Storage.SessionState = yourSessionState
+
+	// CookieState must be defined to provide an interface capapable of
+	// storing cookies for the given response, and reading them from the
+	// request.
+	//
+	// Must implement the authboss ClientStateReadWriter interface
+	// c.Storage.CookieState = yourCookieStore
+
+	// SessionStateWhitelistKeys are set to preserve keys in the session
+	// when authboss.DelAllSession is called. A correct implementation
+	// of ClientStateReadWriter will delete ALL session key-value pairs
+	// unless that key is whitelisted here.
+	c.Storage.SessionStateWhitelistKeys = []string{}
 
 	// ************** Paths Config **************
 
@@ -197,31 +242,4 @@ func SetupAuthboss() {
 	// SubjectPrefix is used to add something to the front of the authboss
 	// email subjects.
 	c.Mail.SubjectPrefix = ""
-
-	// ************** Storage Config **************
-
-	// Storer is the interface through which Authboss accesses the web apps
-	// database for user operations.
-	// Must implement the authboss ServerStorer interface
-	// c.Storage.Server = yourDatabaseImplementation
-
-	// SessionState must be defined to provide an interface capable of
-	// storing session-only values for the given response, and reading them
-	// from the request.
-	//
-	// Must implement the authboss ClientStateReadWriter interface
-	// c.Storage.SessionState = yourSessionState
-
-	// CookieState must be defined to provide an interface capapable of
-	// storing cookies for the given response, and reading them from the
-	// request.
-	//
-	// Must implement the authboss ClientStateReadWriter interface
-	// c.Storage.CookieState = yourCookieStore
-
-	// SessionStateWhitelistKeys are set to preserve keys in the session
-	// when authboss.DelAllSession is called. A correct implementation
-	// of ClientStateReadWriter will delete ALL session key-value pairs
-	// unless that key is whitelisted here.
-	c.Storage.SessionStateWhitelistKeys = []string{}
 }

@@ -16,7 +16,7 @@ import (
 // SetCore creates instances of all the default pieces
 // with the exception of ViewRenderer which should be already set
 // before calling this method.
-func SetCore(config *authboss.Config, readJSON, useUsername bool) {
+func SetCore(config *authboss.Config, readJSON, useUsername bool, mountPath string) {
 	logger := NewLogger(os.Stdout)
 
 	config.Core.Router = NewRouter()
@@ -26,4 +26,6 @@ func SetCore(config *authboss.Config, readJSON, useUsername bool) {
 	config.Core.BodyReader = NewHTTPBodyReader(readJSON, useUsername)
 	config.Core.Mailer = NewLogMailer(os.Stdout)
 	config.Core.Logger = logger
+	config.Core.ViewRenderer = NewHTMLRenderer(mountPath)
+	config.Core.MailRenderer = config.Core.ViewRenderer
 }

@@ -68,22 +68,20 @@ built in authboss defaults:
 ```go
 ab := authboss.New()
 
-ab.Config.Storage.Server = yourDatabaseImplementation
+// The in memory database from the user model
+ab.Config.Storage.Server = DB
+
 ab.Config.Storage.SessionState = yourSessionImplementation
 ab.Config.Storage.CookieState = yourCookieImplementation
 
-// This is using the renderer from: github.com/volatiletech/authboss-renderer
-ab.Config.Core.ViewRenderer = abrenderer.NewHTML("/auth", "ab_views")
-ab.Config.Core.MailRenderer = abrenderer.NewEmail("/auth", "ab_views")
-
 // This instantiates and uses every default implementation
 // in the Config.Core area that exist in the defaults package.
-defaults.SetCore(&ab.Config, false, false)
+defaults.SetCore(&ab.Config, false, false, "/auth")
 ```
 
 Now you can call the init function, and mount the authboss routes with your router:
 
-```
+```go
 if err := ab.Init(); err != nil {
     panic(err)
 }
