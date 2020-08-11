@@ -21,11 +21,11 @@ func SetCore(config *authboss.Config, readJSON, useUsername bool, mountPath, tem
 
 	config.Core.Router = NewRouter()
 	config.Core.ErrorHandler = NewErrorHandler(logger)
+	config.Core.ViewRenderer = NewHTMLRenderer(mountPath, templatesPath)
 	config.Core.Responder = NewResponder(config.Core.ViewRenderer)
 	config.Core.Redirector = NewRedirector(config.Core.ViewRenderer, authboss.FormValueRedirect)
 	config.Core.BodyReader = NewHTTPBodyReader(readJSON, useUsername)
 	config.Core.Mailer = NewLogMailer(os.Stdout)
 	config.Core.Logger = logger
-	config.Core.ViewRenderer = NewHTMLRenderer(mountPath, templatesPath)
 	config.Core.MailRenderer = config.Core.ViewRenderer
 }
