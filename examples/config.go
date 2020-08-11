@@ -18,6 +18,8 @@ func SetupAuthboss() {
 
 	// These Configuration options are set by default in the SetCore method:
 
+        defaults.SetCore(&c, false, false)
+
 	// config.Core.Router = NewRouter()
 	// config.Core.ErrorHandler = NewErrorHandler(logger)
 	// config.Core.Responder = NewResponder(config.Core.ViewRenderer)
