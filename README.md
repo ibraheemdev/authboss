@@ -2,7 +2,7 @@
 
 [![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4)](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ibraheemdev/authboss)](https://goreportcard.com/report/github.com/ibraheemdev/authboss)
-[![Gopherbadger](https://img.shields.io/badge/Go%20Coverage-86%25-brightgreen.svg?longCache=true&style=flat)](https://github.com/jpoles1/gopherbadger)
+[![Gopherbadger](https://img.shields.io/badge/Go%20Coverage-86.1%25-brightgreen.svg?longCache=true&style=flat)](https://github.com/jpoles1/gopherbadger)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9d7f1698687e79cf9ebf/maintainability)](https://codeclimate.com/github/ibraheemdev/authboss/maintainability)
 
 Authboss is a flexible authentication solution for Go Web Applications. It makes it easy 

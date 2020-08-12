@@ -16,16 +16,16 @@ import (
 // SetCore creates instances of all the default pieces
 // with the exception of ViewRenderer which should be already set
 // before calling this method.
-func SetCore(config *authboss.Config, readJSON, useUsername bool, mountPath, templatesPath string) {
+func SetCore(config *authboss.Config, readJSON, useUsername bool, mountPath, templatesPath, layoutPath string) {
 	logger := NewLogger(os.Stdout)
 
 	config.Core.Router = NewRouter()
 	config.Core.ErrorHandler = NewErrorHandler(logger)
-	config.Core.ViewRenderer = NewHTMLRenderer(mountPath, templatesPath)
+	config.Core.ViewRenderer = NewHTMLRenderer(mountPath, templatesPath, layoutPath)
+	config.Core.MailRenderer = NewMailRenderer(mountPath, templatesPath)
 	config.Core.Responder = NewResponder(config.Core.ViewRenderer)
 	config.Core.Redirector = NewRedirector(config.Core.ViewRenderer, authboss.FormValueRedirect)
 	config.Core.BodyReader = NewHTTPBodyReader(readJSON, useUsername)
 	config.Core.Mailer = NewLogMailer(os.Stdout)
 	config.Core.Logger = logger
-	config.Core.MailRenderer = config.Core.ViewRenderer
 }

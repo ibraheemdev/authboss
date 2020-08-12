@@ -1,3 +1,4 @@
+{{ define "content" }}
 <form action="{{mountpathed "register"}}" method="post">
 	{{with .errors}}
 		{{with (index . "")}}
@@ -5,12 +6,14 @@
 				<span>{{.}}</span><br/>{{end}}
 		{{end}}
 	{{end -}}
-	<label for="email">E-mail:</label>
-	<input name="email" type="text" value="{{with .preserve}}{{with .email}}{{.}}{{end}}{{end}}" placeholder="E-mail"/><br/>
-	{{with .errors}}
-		{{range .email}}
-			<span>{{.}}</span><br/>{{end}}
-	{{end -}}
+	<div class="form-group">
+		<label for="email">E-mail:</label>
+		<input name="email" type="text" value="{{with .preserve}}{{with .email}}{{.}}{{end}}{{end}}" placeholder="E-mail"/><br/>
+		{{with .errors}}
+			{{range .email}}
+				<span>{{.}}</span><br/>{{end}}
+		{{end -}}
+	</div>
 	<label for="password">Password:</label>
 	<input name="password" type="password" placeholder="Password"/><br/>
 	{{with .errors}}
@@ -28,3 +31,4 @@
 
 	{{with .csrf_token}}<input type="hidden" name="csrf_token" value="{{.}}"/>{{end}}
 </form>
+{{end}}

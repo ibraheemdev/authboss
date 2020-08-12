@@ -206,8 +206,8 @@ type Config struct {
 
 		// ViewRenderer loads the templates for the application.
 		ViewRenderer Renderer
-		// MailRenderer loads the templates for mail. If this is nil, it will
-		// fall back to using the Renderer created from the ViewLoader instead.
+
+		// MailRenderer loads the templates for mail
 		MailRenderer Renderer
 
 		// Mailer is the mailer being used to send e-mails out via smtp

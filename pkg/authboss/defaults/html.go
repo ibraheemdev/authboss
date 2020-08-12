@@ -11,55 +11,97 @@ import (
 	"github.com/ibraheemdev/authboss/pkg/authboss"
 )
 
-// HTMLRenderer is a simple template renderer that stores a map of templates
+// HTMLRenderer :
 type HTMLRenderer struct {
 	// url mount path
 	mountPath string
 
-	// path to templates folder
-	templatesPath string
+	templatesDir string
+	templates    map[string]*template.Template
 
-	templates map[string]*template.Template
+	// path to layout template templates is rendered
+	// without layout if this field is empty
+	layout string
 }
 
 // NewHTMLRenderer :
-func NewHTMLRenderer(mountPath, templatesPath string) *HTMLRenderer {
+func NewHTMLRenderer(mountPath, templatesDir, layout string) *HTMLRenderer {
 	return &HTMLRenderer{
-		mountPath:     mountPath,
-		templates:     make(map[string]*template.Template),
-		templatesPath: templatesPath,
+		mountPath:    mountPath,
+		templates:    make(map[string]*template.Template),
+		templatesDir: templatesDir,
+		layout:       layout,
 	}
 }
 
-// Render a page with data
-func (h *HTMLRenderer) Render(ctx context.Context, page string, data authboss.HTMLData) (output []byte, contentType string, err error) {
-	tmpl, ok := h.templates[page]
+// NewMailRenderer : Returns a new HTML renderer without a template directory
+// because the default mailer templates are standalone
+func NewMailRenderer(mountPath, templatesDir string) *HTMLRenderer {
+	return &HTMLRenderer{
+		mountPath:    mountPath,
+		templates:    make(map[string]*template.Template),
+		templatesDir: templatesDir,
+	}
+}
+
+// Render a page
+func (r *HTMLRenderer) Render(ctx context.Context, name string, data authboss.HTMLData) (output []byte, contentType string, err error) {
+	tmpl, ok := r.templates[name]
 	if !ok {
-		return nil, "", fmt.Errorf("the template %s does not exist", page)
+		return nil, "", fmt.Errorf("the template %s does not exist", name)
 	}
+
 	buf := &bytes.Buffer{}
-	err = tmpl.ExecuteTemplate(buf, filepath.Base(page), data)
-	if err != nil {
-		return nil, "", fmt.Errorf("failed to render template for page %s: %w", page, err)
+
+	if len(r.layout) != 0 {
+		name = r.layout
 	}
+
+	err = tmpl.ExecuteTemplate(buf, filepath.Base(name), data)
+	if err != nil {
+		return nil, "", fmt.Errorf("failed to render template for page %s: %w", name, err)
+	}
+
 	return buf.Bytes(), "text/html", nil
 }
 
 // Load a template directory
-func (h *HTMLRenderer) Load(templates ...string) error {
+func (r *HTMLRenderer) Load(templates ...string) error {
 	funcMap := template.FuncMap{
 		"mountpathed": func(location string) string {
-			return path.Join(h.mountPath, location)
+			return path.Join(r.mountPath, location)
 		},
+		"safe": func(s string) template.HTML { return template.HTML(s) },
+	}
+
+	var Layout *template.Template
+	if len(r.layout) != 0 {
+		l, err := template.New("layout").Funcs(funcMap).ParseFiles(r.layout)
+		Layout = l
+		if err != nil {
+			return fmt.Errorf("could not parse main template: %w", err)
+		}
 	}
 
 	for _, tpl := range templates {
-		filePath := fmt.Sprintf("%s%s", h.templatesPath, tpl)
-		template, err := template.New(tpl).Funcs(funcMap).ParseFiles(filePath)
-		if err != nil {
-			return fmt.Errorf("Could not parse template: %s", tpl)
+		filePath := fmt.Sprintf("%s/%s", r.templatesDir, tpl)
+
+		var Files []string = []string{filePath}
+
+		if len(r.layout) != 0 {
+			clone, err := Layout.Clone()
+			if err != nil {
+				return err
+			}
+			r.templates[tpl] = clone
+			Files = append(Files, r.layout)
 		}
-		h.templates[tpl] = template
+
+		template, err := r.templates[tpl].ParseFiles(Files...)
+		if err != nil {
+			return fmt.Errorf("failed to parse template %s: %w", tpl, err)
+		}
+		r.templates[tpl] = template
 	}
 	return nil
 }

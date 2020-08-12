@@ -27,8 +27,12 @@ func SetupAuthboss() {
 
 	// ViewRenderer loads the templates for the application.
 	// You can also use defaults.JSONRenderer for api usage
-	// MUST have trailing slash
-	c.Core.ViewRenderer = defaults.NewHTMLRenderer("/auth", "./web/templates/authboss/")
+	// No have trailing slash
+	c.Core.ViewRenderer = defaults.NewHTMLRenderer("/auth", "./web/templates/authboss", "./web/templates/authboss/layout.html.tpl")
+
+	// MailRenderer loads the templates for mail. If this is nil, it will
+	// fall back to using the Renderer created from the ViewLoader instead.
+	c.Core.MailRenderer = defaults.NewMailRenderer("/auth", "./web/templates/authboss")
 
 	// Responder takes a generic response from a controller and prepares
 	// the response, uses a renderer to create the body, and replies to the
@@ -50,10 +54,6 @@ func SetupAuthboss() {
 	// also implement the ContextLogger to be able to upgrade to a
 	// request specific logger.
 	c.Core.Logger = defaults.NewLogger(os.Stdout)
-
-	// MailRenderer loads the templates for mail. If this is nil, it will
-	// fall back to using the Renderer created from the ViewLoader instead.
-	c.Core.MailRenderer = c.Core.ViewRenderer
 
 	// ************** Storage Config **************
 

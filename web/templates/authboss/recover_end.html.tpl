@@ -1,3 +1,4 @@
+{{ define "content" }}
 <form action="{{mountpathed "recover/end"}}" method="POST">
     {{with .errors}}
         {{with (index . "")}}
@@ -20,3 +21,4 @@
     <input type="hidden" name="token" value="{{.recover_token}}"/>
     {{with .csrf_token}}<input type="hidden" name="csrf_token" value="{{.}}"/>{{end -}}
 </form>
+{{ end }}

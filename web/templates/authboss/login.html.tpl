@@ -1,3 +1,4 @@
+{{ define "content" }}
 <form action="{{mountpathed "login"}}" method="POST">
     {{with .error}}{{.}}<br/>{{end}}
     <input type="text" class="form-control" name="email" placeholder="E-mail" value="{{.primaryIDValue}}"><br/>
@@ -20,3 +21,4 @@
         {{end}}
     {{end -}}
 </form>
+{{end}}

@@ -2,19 +2,21 @@ package defaults
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
 )
 
-func TestRenderSuccess(t *testing.T) {
+func TestHTMLRenderSuccess(t *testing.T) {
 	t.Parallel()
-	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss/")
-	err := r.Load("login.html.tpl")
+	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss", "../../../web/templates/authboss/layout.html.tpl")
+	err := r.Load("login.html.tpl", "register.html.tpl")
 	if err != nil {
 		t.Error(err)
 	}
 
 	o, content, err := r.Render(context.Background(), "login.html.tpl", nil)
+	fmt.Println(string(o))
 	if err != nil {
 		t.Error(err)
 	}
@@ -31,11 +33,18 @@ func TestRenderSuccess(t *testing.T) {
 		t.Error("expected the url to be rendered out for the form post location")
 	}
 
-	err = r.Load("mailer/confirm.html.tpl")
+	if !strings.Contains(string(o), "<!-- Application Layout -->") {
+		t.Error("expected the template to be rendered within the layout")
+	}
+}
+
+func TestMailRenderSuccess(t *testing.T) {
+	r := NewMailRenderer("/auth", "../../../web/templates/authboss")
+	err := r.Load("mailer/confirm.html.tpl")
 	if err != nil {
 		t.Error(err)
 	}
-	o, content, err = r.Render(context.Background(), "mailer/confirm.html.tpl", nil)
+	o, content, err := r.Render(context.Background(), "mailer/confirm.html.tpl", nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -51,7 +60,7 @@ func TestRenderSuccess(t *testing.T) {
 
 func TestRenderFail(t *testing.T) {
 	t.Parallel()
-	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss/")
+	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss", "../../../web/templates/authboss/layout.html.tpl")
 
 	_, _, err := r.Render(context.Background(), "doesntexist....html.tpl", nil)
 	if !strings.Contains(err.Error(), "the template doesntexist....html.tpl does not exist") {
@@ -61,8 +70,8 @@ func TestRenderFail(t *testing.T) {
 
 func TestLoadFail(t *testing.T) {
 	t.Parallel()
-	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss/")
-	err := r.Load("./doesntexist....html.tpl")
+	r := NewHTMLRenderer("/auth", "../../../web/templates/authboss", "../../../web/templates/authboss/layout.html.tpl")
+	err := r.Load("doesntexist....html.tpl")
 	if err == nil {
 		t.Error("Expected error due to nonexistent file")
 	}
