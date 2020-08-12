@@ -2,6 +2,12 @@
 cloud.google.com/go/compute/metadata
 # github.com/golang/protobuf v1.3.1
 github.com/golang/protobuf/proto
+# github.com/gorilla/securecookie v1.1.1
+## explicit
+github.com/gorilla/securecookie
+# github.com/gorilla/sessions v1.2.0
+## explicit
+github.com/gorilla/sessions
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
 # github.com/spf13/cobra v1.0.0
