@@ -58,7 +58,6 @@ func (l *Logout) Logout(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	authboss.DelAllSession(w, l.Config.Storage.SessionStateWhitelistKeys)
-	authboss.DelKnownSession(w)
 	authboss.DelKnownCookie(w)
 
 	handled, err = l.Authboss.Events.FireAfter(authboss.EventLogout, w, r)

@@ -267,15 +267,6 @@ func DelAllSession(w http.ResponseWriter, whitelist []string) {
 	delAllState(w, CTXKeySessionState, whitelist)
 }
 
-// DelKnownSession is deprecated. See DelAllSession for an alternative.
-// DelKnownSession deletes all known session variables,
-// effectively logging a user out.
-func DelKnownSession(w http.ResponseWriter) {
-	DelSession(w, SessionKey)
-	DelSession(w, SessionHalfAuthKey)
-	DelSession(w, SessionLastAction)
-}
-
 // DelKnownCookie deletes all known cookie variables, which can be used
 // to delete remember me pieces.
 func DelKnownCookie(w http.ResponseWriter) {
