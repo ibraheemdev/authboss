@@ -25,6 +25,11 @@ func SetupAuthboss() {
 	// ErrorHandler wraps http requests with centralized error handling.
 	c.Core.ErrorHandler = defaults.NewErrorHandler(defaults.NewLogger(os.Stdout))
 
+	// ViewRenderer loads the templates for the application.
+	// You can also use defaults.JSONRenderer for api usage
+	// MUST have trailing slash
+	c.Core.ViewRenderer = defaults.NewHTMLRenderer("/auth", "./web/templates/authboss/")
+
 	// Responder takes a generic response from a controller and prepares
 	// the response, uses a renderer to create the body, and replies to the
 	// http request.
@@ -45,10 +50,6 @@ func SetupAuthboss() {
 	// also implement the ContextLogger to be able to upgrade to a
 	// request specific logger.
 	c.Core.Logger = defaults.NewLogger(os.Stdout)
-
-	// ViewRenderer loads the templates for the application.
-	// You can also use defaults.JSONRenderer for api usage
-	c.Core.ViewRenderer = defaults.NewHTMLRenderer("/auth", "./web/templates/authboss/")
 
 	// MailRenderer loads the templates for mail. If this is nil, it will
 	// fall back to using the Renderer created from the ViewLoader instead.
