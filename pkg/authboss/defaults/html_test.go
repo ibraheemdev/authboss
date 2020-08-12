@@ -31,6 +31,10 @@ func TestRenderSuccess(t *testing.T) {
 		t.Error("expected the url to be rendered out for the form post location")
 	}
 
+	err = r.Load("mailer/confirm.html.tpl")
+	if err != nil {
+		t.Error(err)
+	}
 	o, content, err = r.Render(context.Background(), "mailer/confirm.html.tpl", nil)
 	if err != nil {
 		t.Error(err)

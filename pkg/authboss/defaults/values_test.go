@@ -15,7 +15,7 @@ func TestHTTPBodyReaderLogin(t *testing.T) {
 	h := NewHTTPBodyReader(false, false)
 	r := test.Request("POST", "email", "john@john.john", "password", "flowers")
 
-	validator, err := h.Read("login", r)
+	validator, err := h.Read("login.html.tpl", r)
 	if err != nil {
 		t.Error(err)
 	}
@@ -35,7 +35,7 @@ func TestHTTPBodyReaderJSON(t *testing.T) {
 	h := NewHTTPBodyReader(true, false)
 	r := httptest.NewRequest("POST", "/", strings.NewReader(`{"email":"john@john.john","password":"flowers"}`))
 
-	validator, err := h.Read("login", r)
+	validator, err := h.Read("login.html.tpl", r)
 	if err != nil {
 		t.Error(err)
 	}
@@ -55,7 +55,7 @@ func TestHTTPBodyReaderConfirm(t *testing.T) {
 	h := NewHTTPBodyReader(false, false)
 	r := test.Request("POST", FormValueConfirm, "token")
 
-	validator, err := h.Read("confirm", r)
+	validator, err := h.Read("mailer/confirm.html.tpl", r)
 	if err != nil {
 		t.Error(err)
 	}
@@ -72,7 +72,7 @@ func TestHTTPBodyReaderRecoverStart(t *testing.T) {
 	h := NewHTTPBodyReader(false, false)
 	r := test.Request("POST", FormValueEmail, "email")
 
-	validator, err := h.Read("recover_start", r)
+	validator, err := h.Read("recover_start.html.tpl", r)
 	if err != nil {
 		t.Error(err)
 	}
@@ -89,7 +89,7 @@ func TestHTTPBodyReaderRecoverMiddle(t *testing.T) {
 	h := NewHTTPBodyReader(false, false)
 	r := httptest.NewRequest("GET", "/?token=token", nil)
 
-	validator, err := h.Read("recover_middle", r)
+	validator, err := h.Read("recover_middle.html.tpl", r)
 	if err != nil {
 		t.Error(err)
 	}
@@ -106,7 +106,7 @@ func TestHTTPBodyReaderRecoverEnd(t *testing.T) {
 	h := NewHTTPBodyReader(false, false)
 	r := test.Request("POST", "token", "token", "password", "password")
 
-	validator, err := h.Read("recover_end", r)
+	validator, err := h.Read("recover_end.html.tpl", r)
 	if err != nil {
 		t.Error(err)
 	}
@@ -124,10 +124,10 @@ func TestHTTPBodyReaderRegister(t *testing.T) {
 	t.Parallel()
 
 	h := NewHTTPBodyReader(false, false)
-	h.Whitelist["register"] = []string{"address"}
+	h.Whitelist["register.html.tpl"] = []string{"address"}
 	r := test.Request("POST", "email", "a@a.com", "password", "1234", "address", "555 go street")
 
-	validator, err := h.Read("register", r)
+	validator, err := h.Read("register.html.tpl", r)
 	if err != nil {
 		t.Error(err)
 	}
@@ -143,6 +143,6 @@ func TestHTTPBodyReaderRegister(t *testing.T) {
 	arb := validator.(authboss.ArbitraryValuer)
 	values := arb.GetValues()
 	if address := values["address"]; address != "555 go street" {
-		t.Error("address was wrong:", address)
+		t.Errorf("address was wrong, got: %s", values)
 	}
 }
