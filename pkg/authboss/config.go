@@ -232,4 +232,5 @@ func (c *Config) Defaults() {
 	c.Modules.RecoverLoginAfterRecovery = false
 	c.Modules.RecoverTokenDuration = 24 * time.Hour
 	c.Modules.TwoFactorEmailAuthRequired = true
+	c.Modules.RegisterPreserveFields = []string{"email"}
 }

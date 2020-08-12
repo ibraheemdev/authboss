@@ -190,7 +190,7 @@ func SetupAuthboss() {
 	// to have that returned by the ArbitraryValuer.GetValues() method and
 	// then it would be available to be whitelisted by this
 	// configuration variable.
-	c.Modules.RegisterPreserveFields = []string{}
+	c.Modules.RegisterPreserveFields = []string{"email"}
 
 	// RecoverTokenDuration controls how long a token sent via
 	// email for password recovery is valid for.
