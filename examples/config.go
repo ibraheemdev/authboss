@@ -141,14 +141,6 @@ func SetupAuthboss() {
 	// BCryptCost is the cost of the bcrypt password hashing function.
 	c.Modules.BCryptCost = bcrypt.DefaultCost
 
-	// ConfirmMethod IS DEPRECATED! See MailRouteMethod instead.
-	//
-	// ConfirmMethod controls which http method confirm expects.
-	// This is because typically this is a GET request since it's a link
-	// from an e-mail, but in api-like cases it needs to be able to be a
-	// post since there's data that must be sent to it.
-	c.Modules.ConfirmMethod = http.MethodGet
-
 	// ExpireAfter controls the time an account is idle before being
 	// logged out by the ExpireMiddleware.
 	c.Modules.ExpireAfter = time.Hour
@@ -173,12 +165,6 @@ func SetupAuthboss() {
 	// You should probably set this to POST if you are building an API
 	// so that the user goes to the frontend with their link & token
 	// and the front-end calls the API with the token in a POST JSON body.
-	//
-	// This configuration setting deprecates ConfirmMethod.
-	// If ConfirmMethod is set to the default value (GET) then
-	// MailRouteMethod is used. If ConfirmMethod is not the default value
-	// then it is used until Authboss v3 when only MailRouteMethod will be
-	// used.
 	c.Modules.MailRouteMethod = http.MethodGet
 
 	// MailNoGoroutine is used to prevent the mailer from being launched
