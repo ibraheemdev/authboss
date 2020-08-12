@@ -30,6 +30,19 @@ func TestRenderSuccess(t *testing.T) {
 	if !strings.Contains(string(o), "/auth/login") {
 		t.Error("expected the url to be rendered out for the form post location")
 	}
+
+	o, content, err = r.Render(context.Background(), "mailer/confirm.html.tpl", nil)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if content != "text/html" {
+		t.Error("context type not set properly")
+	}
+
+	if len(o) == 0 {
+		t.Error("it should have rendered a template")
+	}
 }
 
 func TestRenderFail(t *testing.T) {

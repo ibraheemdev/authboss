@@ -38,7 +38,7 @@ func (h *HTMLRenderer) Render(ctx context.Context, page string, data authboss.HT
 		return nil, "", fmt.Errorf("the template %s does not exist", page)
 	}
 	buf := &bytes.Buffer{}
-	err = tmpl.ExecuteTemplate(buf, page, data)
+	err = tmpl.ExecuteTemplate(buf, filepath.Base(page), data)
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to render template for page %s: %w", page, err)
 	}
@@ -49,19 +49,17 @@ func (h *HTMLRenderer) Render(ctx context.Context, page string, data authboss.HT
 func (h *HTMLRenderer) Load(templates ...string) error {
 	funcMap := template.FuncMap{
 		"mountpathed": func(location string) string {
-
 			return path.Join(h.mountPath, location)
 		},
 	}
 
 	for _, tpl := range templates {
-		fileName := filepath.Base(tpl)
-		filePath := fmt.Sprintf("%s/%s", h.templatesPath, tpl)
-		template, err := template.New(fileName).Funcs(funcMap).ParseFiles(filePath)
+		filePath := fmt.Sprintf("%s%s", h.templatesPath, tpl)
+		template, err := template.New(tpl).Funcs(funcMap).ParseFiles(filePath)
 		if err != nil {
-			return fmt.Errorf("Could not parse template: %s", fileName)
+			return fmt.Errorf("Could not parse template: %s", tpl)
 		}
-		h.templates[fileName] = template
+		h.templates[tpl] = template
 	}
 	return nil
 }
