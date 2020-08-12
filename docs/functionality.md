@@ -26,10 +26,7 @@ method. This ensures the above facets are taken care of which the exception of t
 If it's also desirable to have the user logged out, please use the following methods to erase
 all known sessions and cookies from the user.
 
-* [authboss.DelKnownSession](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#DelKnownSession)
 * [authboss.DelKnownCookie](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#DelKnownCookie)
-
-*Note: DelKnownSession has been deprecated for security reasons*
 
 ###  User Auth via Password
 

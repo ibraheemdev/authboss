@@ -118,25 +118,7 @@ const (
 	RespondUnauthorized
 )
 
-// Middleware is deprecated. See Middleware2.
-func Middleware(ab *Authboss, redirectToLogin bool, forceFullAuth bool) func(http.Handler) http.Handler {
-	return MountedMiddleware(ab, false, redirectToLogin, forceFullAuth)
-}
-
-// MountedMiddleware is deprecated. See MountedMiddleware2.
-func MountedMiddleware(ab *Authboss, mountPathed, redirectToLogin, forceFullAuth bool) func(http.Handler) http.Handler {
-	var reqs MWRequirements
-	failResponse := RespondNotFound
-	if forceFullAuth {
-		reqs |= RequireFullAuth
-	}
-	if redirectToLogin {
-		failResponse = RespondRedirect
-	}
-	return MountedMiddleware2(ab, mountPathed, reqs, failResponse)
-}
-
-// Middleware2 prevents someone from accessing a route that should be
+// Middleware prevents someone from accessing a route that should be
 // only allowed for users who are logged in.
 // It allows the user through if they are logged in (SessionKey is present in
 // the session).
@@ -147,18 +129,18 @@ func MountedMiddleware(ab *Authboss, mountPathed, redirectToLogin, forceFullAuth
 //
 // failureResponse is how the middleware rejects the users that don't meet
 // the criteria. This should be chosen from the MWRespondOnFailure constants.
-func Middleware2(ab *Authboss, requirements MWRequirements, failureResponse MWRespondOnFailure) func(http.Handler) http.Handler {
-	return MountedMiddleware2(ab, false, requirements, failureResponse)
+func Middleware(ab *Authboss, requirements MWRequirements, failureResponse MWRespondOnFailure) func(http.Handler) http.Handler {
+	return MountedMiddleware(ab, false, requirements, failureResponse)
 }
 
-// MountedMiddleware2 hides an option from typical users in "mountPathed".
+// MountedMiddleware hides an option from typical users in "mountPathed".
 // Normal routes should never need this only authboss routes (since they
 // are behind mountPath typically). This method is exported only for use
 // by Authboss modules, normal users should use Middleware instead.
 //
 // If mountPathed is true, then before redirecting to a URL it will add
 // the mountpath to the front of it.
-func MountedMiddleware2(ab *Authboss, mountPathed bool, reqs MWRequirements, failResponse MWRespondOnFailure) func(http.Handler) http.Handler {
+func MountedMiddleware(ab *Authboss, mountPathed bool, reqs MWRequirements, failResponse MWRespondOnFailure) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			log := ab.RequestLogger(r)
