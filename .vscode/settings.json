@@ -1,5 +1,8 @@
 {
   "emmet.includeLanguages": {
     "nunjucks": "html",
+  },
+  "search.exclude": {
+    "**/vendor/**/*": true,
   }
 }
