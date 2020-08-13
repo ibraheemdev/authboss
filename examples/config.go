@@ -67,15 +67,13 @@ func SetupAuthboss() {
 	// storing session-only values for the given response, and reading them
 	// from the request.
 	//
-	// Must implement the authboss ClientStateReadWriter interface
-	// c.Storage.SessionState = yourSessionState
+	c.Storage.SessionState = defaults.NewSessionStorer("authboss_session", []byte("sessionStoreKeyGoesHere"), nil)
 
 	// CookieState must be defined to provide an interface capapable of
 	// storing cookies for the given response, and reading them from the
 	// request.
 	//
-	// Must implement the authboss ClientStateReadWriter interface
-	// c.Storage.CookieState = yourCookieStore
+	c.Storage.CookieState = defaults.NewCookieStorer([]byte("cookieStoreKeyGoesHere"), nil)
 
 	// SessionStateWhitelistKeys are set to preserve keys in the session
 	// when authboss.DelAllSession is called. A correct implementation
