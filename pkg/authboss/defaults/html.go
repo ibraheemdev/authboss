@@ -19,8 +19,9 @@ type HTMLRenderer struct {
 	templatesDir string
 	templates    map[string]*template.Template
 
-	// path to layout template templates is rendered
-	// without layout if this field is empty
+	// path to layout template. 
+	// templates are rendered without
+	// a layout if this field is empty
 	layout string
 }
 
