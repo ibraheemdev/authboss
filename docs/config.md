@@ -31,14 +31,17 @@ Mail sending related options.
 ### Storage
 
 These are the implementations of how storage on the server and the client are done in your
-app. There are no default implementations for these at this time. See the [Godoc](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss) for more information
-about what these are.
+application. There are implementations for the CookieStore and the SessionStore, but not the ServerStorer. The ServerStorer must be manually implemented depending on which database your app uses. For a sample in memory server store, you can run the user model generator:
+
+Note: This command **will overwrite the file** if it already exists:
+```bash
+$ authboss generate:user ./user.go
+```
 
 ### Core
 
 These are the implementations of the HTTP stack for your app. How do responses render? How are
 they redirected? How are errors handled?
 
-For most of these there are default implementations from the
-[defaults package](https://github.com/ibraheemdev/authboss/tree/master/pkg/authboss/defaults) available, but not for all.
-See the package documentation for more information about what's available.
+There are default implementations from the
+[defaults package](https://github.com/ibraheemdev/authboss/tree/master/pkg/authboss/defaults) available for all of the core config options.
