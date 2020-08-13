@@ -60,7 +60,7 @@ The BodyReader interface in the Config returns Validator implementations which c
 
 A typical BodyReader (like the one in the defaults package) implementation parses the request body and produces a struct that has the ability to Validate() it's data as well as functions to retrieve the data necessary for the particular valuer required by the module.
 
-Many modules use upgraded "valuers". For example the authenticatable package uses a UserValuer which stores and validates the PID and Password that a user has provided for the modules to use.
+Many modules use upgraded "valuers". For example the confirmable package uses a ConfirmValuer which allows it to pull out the confirmation token from the request.
 
 Your body reader implementation does not need to implement all valuer types unless you're using a module that requires it. See the [Functionality](functionality.md) documentation to know what the requirements are.
 
