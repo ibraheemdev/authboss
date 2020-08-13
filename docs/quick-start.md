@@ -71,12 +71,13 @@ ab := authboss.New()
 // The in memory database from the user model
 ab.Config.Storage.Server = DB
 
-// ab.Config.Storage.SessionState = yourSessionImplementation
-// ab.Config.Storage.CookieState = yourCookieImplementation
+// Default cookie and session storages using the gorilla toolkit
+ab.Config.Storage.CookieState = defaults.NewCookieStorer(cookieStoreKey, nil)
+ab.Config.Storage.SessionState = defaults.NewSessionStorer("autboss_session", sessionStoreKey, nil)
 
 // This instantiates and uses every default implementation
 // in the Config.Core area that exist in the defaults package.
-defaults.SetCore(&ab.Config, false, false, "/auth", "./templates/authboss")
+defaults.SetCore(&ab.Config, false, false, "/auth", "./templates/authboss". "./templates/authboss/layout.html")
 ```
 
 To generate the default templates, you can run:
@@ -85,7 +86,7 @@ To generate the default templates, you can run:
 authboss generate:templates ./templates
 ```
 
-Now you can call the init function, and mount the authboss routes with your router:
+Now you can call the init function, and mount the authboss routes with your router, along with the middleware. All middlewares are optional except the `LoadClientStateMiddleware()`, which handle loading the user state into the request context.
 
 ```go
 if err := ab.Init(); err != nil {
@@ -94,7 +95,9 @@ if err := ab.Init(); err != nil {
 
 // Mount the router to a path (this should be the same as the Mount path above)
 mux := chi.NewRouter()
+mux.Use(authboss.LoadClientStateMiddleware(), rememberable.Middleware(ab))
 mux.Mount("/auth", http.StripPrefix("/auth", ab.Config.Core.Router))
+http.ListenAndServe(":8080", mux)
 ```
 
-Our main priority right now is your experience. More documentation and generators will be added soon!
+That's it. Authboss is up and running with all it's routes!

@@ -7,41 +7,35 @@ CurrentUser can be retrieved by calling
 but a pre-requisite is that
 [Authboss.LoadClientState](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientState)
 has been called first to load the client state into the request context.
-This is typically achieved by using the
-[Authboss.LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware), but can
-be done manually as well.
+This is achieved using the [Authboss.LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware).
 
 ###  Reset Password
 
 Updating a user's password is non-trivial for several reasons:
 
-1. The bcrypt algorithm must have the correct cost, and also be being used.
-1. The user's remember me tokens should all be deleted so that previously authenticated sessions are invalid
-1. Optionally the user should be logged out (**not taken care of by UpdatePassword**)
+* The bcrypt algorithm must have the correct cost, and also be being used.
+* The user's remember me tokens should all be deleted so that previously authenticated sessions are invalid
 
-In order to do this, we can use the
-[Authboss.UpdatePassword](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.UpdatePassword)
-method. This ensures the above facets are taken care of which the exception of the logging out part.
+In order to do this, we can use the [Authboss.UpdatePassword](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#AuthbossUpdatePassword) method.
 
-If it's also desirable to have the user logged out, please use the following methods to erase
-all known sessions and cookies from the user.
+If you want the user to be logged out after password reset, use the following methods to erase all known sessions and cookies from the user.
 
 * [authboss.DelKnownCookie](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#DelKnownCookie)
+* [authboss.DelAllSession](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#DelAllSession)
 
 ###  User Auth via Password
 
 | Info and Requirements |          |
 | --------------------- | -------- |
-Module        | auth
+Module        | authenticatable
 Pages         | login
 Routes        | /login
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session and Cookie
 ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#ServerStorer)
 User          | [AuthableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#AuthableUser)
 Values        | [UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#UserValuer)
-Mailer        | _None_
 
 To enable this side-effect import the auth module, and ensure that the requirements above are met.
 It's very likely that you'd also want to enable the logout module in addition to this.
@@ -53,7 +47,7 @@ Direct a user to `GET /login` to have them enter their credentials and log in.
 
 | Info and Requirements |          |
 | --------------------- | -------- |
-Module        | oauth2
+Module        | oauthable
 Pages         | _None_
 Routes        | /oauth2/{provider}, /oauth2/callback/{provider}
 Emails        | _None_
@@ -62,7 +56,6 @@ ClientStorage | Session
 ServerStorer  | [OAuth2ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#OAuth2ServerStorer)
 User          | [OAuth2User](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#OAuth2User)
 Values        | _None_
-Mailer        | _None_
 
 This is a tougher implementation than most modules because there's a lot going on. In addition to the
 requirements stated above, you must also configure the `OAuth2Providers` in the config struct.
@@ -74,7 +67,7 @@ These parameters are returned in `map[string]string` form and passed into the `O
 
 Please see the following documentation for more details:
 
-* [Package docs for oauth2](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/oauth2/)
+* [Package docs for oauthable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/oauthable/)
 * [authboss.OAuth2Provider](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#OAuth2Provider)
 * [authboss.OAuth2ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#OAuth2ServerStorer)
 
@@ -82,16 +75,15 @@ Please see the following documentation for more details:
 
 | Info and Requirements |          |
 | --------------------- | -------- |
-Module        | register
+Module        | registerable
 Pages         | register
 Routes        | /register
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
-ServerStorer  | [CreatingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#CreatingServerStorer)
-User          | [AuthableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#AuthableUser), optionally [ArbitraryUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ArbitraryUser)
-Values        | [UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#UserValuer), optionally also [ArbitraryValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ArbitraryValuer)
-Mailer        | _None_
+ServerStorer  | [CreatingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#CreatingServerStorer)
+User          | [AuthableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#AuthableUser), optionally [ArbitraryUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#ArbitraryUser)
+Values        | [UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#UserValuer), optionally also [ArbitraryValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#ArbitraryValuer)
 
 Users can self-register for a service using this module. You may optionally want them to confirm
 themselves, which can be done using the confirm module.
@@ -109,23 +101,22 @@ This means the (whitelisted) values entered by the user previously will be acces
 templates by using `.preserve.field_name`. Preserve may be empty or nil so use
 `{{with ...}}` to make sure you don't have template errors.
 
-There is additional [Godoc documentation](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss/v3#Config) on the `RegisterPreserveFields` config option as well as
+There is additional [Godoc documentation](https://pkg.go.dev/mod/github.com/ibraheemdev/authboss/pkg/authboss#Config) on the `RegisterPreserveFields` config option as well as
 the `ArbitraryUser` and `ArbitraryValuer` interfaces themselves.
 
 ### Confirming Registrations
 
 | Info and Requirements |          |
 | --------------------- | -------- |
-Module        | confirm
+Module        | confirmable
 Pages         | confirm
 Routes        | /confirm
 Emails        | confirm_html, confirm_txt
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), [confirm.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/confirm/#Middleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware), [confirm.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/confirm/#Middleware)
 ClientStorage | Session
-ServerStorer  | [ConfirmingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ConfirmingServerStorer)
-User          | [ConfirmableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ConfirmableUser)
-Values        | [ConfirmValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ConfirmValuer)
-Mailer        | Required
+ServerStorer  | [ConfirmingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#ConfirmingServerStorer)
+User          | [ConfirmableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#ConfirmableUser)
+Values        | [ConfirmValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#ConfirmValuer)
 
 Confirming registrations via e-mail can be done with this module (whether or not done via the register
 module).
@@ -142,16 +133,15 @@ not the verifier.
 
 | Info and Requirements |          |
 | --------------------- | -------- |
-Module        | recover
+Module        | recoverable
 Pages         | recover_start, recover_middle (not used for renders, only values), recover_end
 Routes        | /recover, /recover/end
 Emails        | recover_html, recover_txt
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware)
 ClientStorage | Session
-ServerStorer  | [RecoveringServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoveringServerStorer)
-User          | [RecoverableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoverableUser)
-Values        | [RecoverStartValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoverStartValuer), [RecoverMiddleValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoverMiddleValuer), [RecoverEndValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RecoverEndValuer)
-Mailer        | Required
+ServerStorer  | [RecoveringServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#RecoveringServerStorer)
+User          | [RecoverableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#RecoverableUser)
+Values        | [RecoverStartValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#RecoverStartValuer), [RecoverMiddleValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#RecoverMiddleValuer), [RecoverEndValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#RecoverEndValuer)
 
 The flow for password recovery is that the user is initially shown a page that wants their `PID` to
 be entered. The `RecoverStartValuer` retrieves that on `POST` to `/recover`.
@@ -171,17 +161,16 @@ not the verifier.
 
 | Info and Requirements |          |
 | --------------------- | -------- |
-Module        | remember
+Module        | rememberable
 Pages         | _None_
 Routes        | _None_
 Emails        | _None_
 Middlewares   | LoadClientStateMiddleware,
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), [remember.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/remember/#Middleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware), [remember.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/remember/#Middleware)
 ClientStorage | Session, Cookies
-ServerStorer  | [RememberingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RememberingServerStorer)
+ServerStorer  | [RememberingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#RememberingServerStorer)
 User          | User
-Values        | [RememberValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#RememberValuer) (not a Validator)
-Mailer        | _None_
+Values        | [RememberValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#RememberValuer) (not a Validator)
 
 Remember uses cookie storage to log in users without a session via the `remember.Middleware`.
 Because of this this middleware should be used high up in the stack, but it also needs to be after
@@ -203,22 +192,20 @@ which prevents half-authed users from using that route.
 
 | Info and Requirements |          |
 | --------------------- | -------- |
-Module        | lock
+Module        | lockable
 Pages         | _None_
 Routes        | _None_
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), [lock.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/lock/#Middleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware), [lock.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/lock/#Middleware)
 ClientStorage | Session
-ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/#ServerStorer)
-User          | [LockableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/#LockableUser)
+ServerStorer  | [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#ServerStorer)
+User          | [LockableUser](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#LockableUser)
 Values        | _None_
-Mailer        | _None_
 
 Lock ensures that a user's account becomes locked if authentication (both auth, oauth2, otp) are
 failed enough times.
 
-The middleware protects resources from locked users, without it, there is no point to this module.
-You should put in front of any resource that requires a login to function.
+The middleware protects resources from locked users. You should put in front of any resource that requires a login to function.
 
 ### Expiring User Sessions
 
@@ -228,12 +215,11 @@ Module        | expire
 Pages         | _None_
 Routes        | _None_
 Emails        | _None_
-Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/#Authboss.LoadClientStateMiddleware), [expire.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/expire/#Middleware)
+Middlewares   | [LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#Authboss.LoadClientStateMiddleware), [expire.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/expire/#Middleware)
 ClientStorage | Session
 ServerStorer  | _None_
-User          | [User](https://pkg.go.dev/github.com/ibraheemdev/authboss/#User)
+User          | [User](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss#User)
 Values        | _None_
-Mailer        | _None_
 
 Expire simply uses sessions to track when the last action of a user is, if that action is longer
 than configured then the session is deleted and the user removed from the request context.

@@ -5,18 +5,16 @@ enables session and cookie handling for Authboss. Without that, it's not a very 
 software.
 
 The remaining middlewares are either the implementation of an entire module (like expire),
-or a key part of a module. For example you probably wouldn't want to use the lock module
-without the middleware that would stop a locked user from using an authenticated resource,
-because then locking wouldn't be useful unless of course you had your own way of dealing
-with locking, which is why it's only recommended, and not required. Typically you will
-use the middlewares if you use the module.
+or a key part of a module. You can use a specific module's middleware on part of your application to prevent unauthorized users from accessing those routes:
 
-Name | Requirement | Description
----- | ----------- | -----------
-[Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Middleware) | Recommended | Prevents unauthenticated users from accessing routes.
-[LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Authboss.LoadClientStateMiddleware) | **Required** | Enables cookie and session handling
-[ModuleListMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Authboss.ModuleListMiddleware) | Optional | Inserts a loaded module list into the view data
-[confirm.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=docconfirm/#Middleware) | Recommended with confirm | Ensures users are confirmed or rejects request
-[expire.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/expire/#Middleware) | **Required** with expire | Expires user sessions after an inactive period
-[lock.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/lock/#Middleware) | Recommended with lock | Rejects requests from locked users
-[remember.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/remember/#Middleware) | Recommended with remember | Logs a user in from a remember cookie
+Name | Description
+---- | -----------
+[Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Middleware) | Prevents unauthenticated users from accessing routes.
+[LoadClientStateMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Authboss.LoadClientStateMiddleware) | **Required** Enables cookie and session handling
+[ModuleListMiddleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Authboss.ModuleListMiddleware) | Inserts a list of loaded modules into the view data. This can be useful for showing specific routes depending on which modules are being used, or for debugging an application.
+[confirm.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=docconfirm/#Middleware) | Prevents unconfirmed users from accessing routes.
+[expire.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/expire/#Middleware) | **Required** with expire. Expires user sessions after an inactive period
+[lock.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/lock/#Middleware) | Prevents locked users from accessing routes.
+[remember.Middleware](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/remember/#Middleware) | Logs a user in from a remember cookie
+
+Note: Middlewares that load a user context will panic if there is no current user. An example of this is the lock middleware, which requires a user context in order to check if the current user is locked or not. You should no wrap your entire app in these middlewares, and only use them on specific routes. You can use a middleware to recover from unexpected panics, such as [gorilla recovery handler](https://godoc.org/github.com/gorilla/handlers#RecoveryHandler).

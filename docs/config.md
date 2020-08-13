@@ -5,7 +5,7 @@ want with the implementations you want. Please look at it's code definition belo
 
 [Config Struct Documentation](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Config)
 
-Optionally, to view all the configuration options, you can generate the default config:
+To view all the configuration options, you can generate the default config file:
 
 ```bash
 authboss generate:config ./config.go

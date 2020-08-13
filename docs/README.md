@@ -6,7 +6,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/9d7f1698687e79cf9ebf/maintainability)](https://codeclimate.com/github/ibraheemdev/authboss/maintainability)
 
 Authboss is a flexible authentication solution for Go Web Applications. It makes it easy 
-to plug in authentication to an application and get a lot of functionality with little
+to plug in authentication to an application and get a lot of functionality with minimal
 effort.
 
 It is composed of 9 modules:
@@ -25,10 +25,9 @@ It is composed of 9 modules:
 ### Why use Authboss?
 
 Every time you'd like to start a new web project, you really want to get to the heart of what you're
-trying to accomplish very quickly and it would be a sure bet to say one of the systems you're excited
-about implementing and innovating on is not authentication. In fact it's very much the opposite: it's
-one of those things that you have to do and one of those things you loathe to do. Authboss is supposed
-to remove a lot of the tedium that comes with this, as well as a lot of the chances to make mistakes.
+trying to accomplish very quickly and it would be a sure bet to say one of the systems you're not excited
+about implementing and innovating in is authentication. In fact it's very much the opposite:
+Authboss removes a lot of the tedium that comes with this, as well as a lot of the chances to make mistakes.
 This allows you to care about what you're intending to do, rather than care about ancillary support
 systems required to make what you're intending to do happen.
 
@@ -37,3 +36,5 @@ Here are a few bullet point reasons you might like to try it out:
 * Saves you time (Authboss integration time should be less than re-implementation time)
 * Saves you mistakes (at least using Authboss, people can bug fix as a collective and all benefit)
 * Should integrate with or without any web framework
+
+### [Click Here Get Started!](quick-start.md)

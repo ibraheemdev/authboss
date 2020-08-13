@@ -1,77 +1,38 @@
 # Integration
 
-Authboss does a lot of things, but it doesn't do some of the important things that are required by
-a typical authentication system, because it can't guarantee that you're doing many of those things
-in a different way already, so it punts the responsibility.
 
-### CSRF Protection
+### Modules
 
-What this means is you should apply a middleware that can protect the application from crsf
-attacks or you may be vulnerable. Authboss previously handled this but it took on a dependency
-that was unnecessary and it complicated the code. Because Authboss does not render views nor
-consumes data directly from the user, it no longer does this.
+Authboss consists of 9 modules. You can use as many and as few of these modules as you want (within reason). These are:
 
-### Request Throttling
+* [Database Authenticatable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authenticatable?tab=doc): hashes and stores a password in the database to validate the authenticity of a user while signing in.
+* [Logoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/logoutable?tab=doc): implements user logout functionality
+* [OAuthable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/oauthable?tab=doc): adds OAuth support.
+* [Confirmable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/confirmable?tab=doc): sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
+* [Recoverable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/recoverable?tab=doc): resets the user password and sends reset instructions.
+* [Registerable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/registerable?tab=doc): handles signing up users through a registration process, also allowing them to edit and destroy their account.
+* [Rememberable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/rememberable?tab=doc): manages generating and clearing a token for remembering the user from a saved cookie.
+* [Timeoutable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/timeoutable?tab=doc): expires sessions that have not been active in a specified period of time.
+* [Lockable](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/lockable?tab=doc): locks an account after a specified number of failed sign-in attempts.
 
-Currently Authboss is vulnerable to brute force attacks because there are no protections on
-it's endpoints. This again is left up to the creator of the website to protect the whole website
-at once (as well as Authboss) from these sorts of attacks.
+To use a module, you can simply use a blank import:
 
-### Middleware
+```go
+import _"github.com/ibraheemdev/authboss/pkg/authenticatable"
+```
 
-There are middlewares that are required to be installed in your middleware stack if it's
-all to function properly, please see [Middlewares](#middlewares) for more information.
+This will call the module's init function, which registers the module with authboss. Most modules are accompanied with middlewares to protect certain routes, or provide other useful functionality. See [Middlewares](middlewares.md) for more information.
 
 ### Configuration
 
-There are some required configuration variables that have no sane defaults and are particular
-to your app:
-
-* Config.Paths.Mount
-* Config.Paths.RootURL
+Authboss uses interfaces to make almost everything configurable. It includes many defaults, that will fit most usecases. For a full list of configuration options, refer to [Configuration](config.md).
 
 ### Storage and Core implementations
 
-Everything under Config.Storage and Config.Core are required and you must provide them,
-however you can optionally use default implementations from the
-[defaults package](https://github.com/ibraheemdev/authboss/tree/master/defaults).
+Everything under Config.Storage and Config.Core are required variables. However, you can optionally use default implementations from the [defaults package](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss/defaults?tab=doc).
 This also provides an easy way to share implementations of certain stack pieces (like HTML Form Parsing).
-As you saw in the example above these can be easily initialized with the `SetCore` method in that
+As you saw in the quick start example above these can be easily initialized with the `SetCore` method in that
 package.
-
-The following is a list of storage interfaces, they must be provided by the implementer. Server is a
-very involved implementation, please see the additional documentation below for more details.
-
-* Config.Storage.Server
-* Config.Storage.SessionState
-* Config.Storage.CookieState (only for "remember me" functionality)
-
-The following is a list of the core pieces, these typically are abstracting the HTTP stack.
-Out of all of these you'll probably be mostly okay with the default implementations in the
-defaults package but there are two big exceptions to this rule and that's the ViewRenderer
-and the MailRenderer. For more information please see the use case [Rendering Views](#rendering-views)
-
-* Config.Core.Router
-* Config.Core.ErrorHandler
-* Config.Core.Responder
-* Config.Core.Redirector
-* Config.Core.BodyReader
-* Config.Core.ViewRenderer
-* Config.Core.MailRenderer
-* Config.Core.Mailer
-* Config.Core.Logger
-
-### ServerStorer implementation
-
-The [ServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#ServerStorer) is
-meant to be upgraded to add capabilities depending on what modules you'd like to use.
-It starts out by only knowing how to save and load users, but the `remember` module as an example
-needs to be able to find users by remember me tokens, so it upgrades to a
-[RememberingServerStorer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#RememberingServerStorer)
-which adds these abilities.
-
-Your `ServerStorer` implementation does not need to implement all these additional interfaces
-unless you're using a module that requires it. See the [Use Cases](#use-cases) documentation to know what the requirements are.
 
 ### User implementation
 
@@ -90,27 +51,21 @@ to upgrade the user (and panic if it fails) to a
 which supports retrieving and setting of confirm tokens, e-mail addresses, and a confirmed state.
 
 Your `User` implementation does not need to implement all these additional user interfaces unless you're
-using a module that requires it. See the [Use Cases](#use-cases) documentation to know what the
+using a module that requires it. See the [Functionality](functionality.md) documentation to know what the
 requirements are.
 
-### Values implementation
 
-The [BodyReader](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#BodyReader)
-interface in the Config returns
-[Validator](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#Validator) implementations
-which can be validated. But much like the storer and user it can be upgraded to add different
-capabilities.
+# What's Not Included
 
-A typical `BodyReader` (like the one in the defaults package) implementation checks the page being
-requested and switches on that to parse the body in whatever way
-(msgpack, json, url-encoded, doesn't matter), and produce a struct that has the ability to
-`Validate()` it's data as well as functions to retrieve the data necessary for the particular
-valuer required by the module.
+Authboss has a lot of built in functionality. However, some important things are not included as they would be difficult to abstract into a solution that would fit the many go frameworks and toolkits. These are included below:
 
-An example of an upgraded `Valuer` is the
-[UserValuer](https://pkg.go.dev/github.com/ibraheemdev/authboss/pkg/authboss?tab=doc#UserValuer)
-which stores and validates the PID and Password that a user has provided for the modules to use.
+### CSRF Protection
 
-Your body reader implementation does not need to implement all valuer types unless you're
-using a module that requires it. See the [Use Cases](#use-cases) documentation to know what the
-requirements are.
+Authboss does not deal with csrf protection.
+You should apply a middleware that will protect your application from crsf attacks or you may be vulnerable. Some popular libraries for dealing with this are [gorilla csrf](https://github.com/gorilla/csrf), and [justinas's nosurf package](https://github.com/justinas/nosurf).
+
+### Request Throttling
+
+Currently Authboss is vulnerable to brute force attacks because there are no protections on
+it's endpoints. This again is left up to the creator of the website to protect the whole application
+at once (as well as Authboss) from these sorts of attacks.
